@@ -1,0 +1,15 @@
+.btn {
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 20px;
+  transition: background-color 0.37s $easing;
+
+  &-primary {
+    color: $white;
+    background-color: $cyan;
+
+    &:hover {
+      background-color: darken($cyan, 15%);
+    }
+  }
+}

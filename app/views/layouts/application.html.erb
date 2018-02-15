@@ -2,13 +2,77 @@
 <html>
   <head>
     <title>Ecoactua</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'https://fonts.googleapis.com/css?family=Asap:400,700' %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
+  <% switch_header = false  %>
+
   <body>
-    <%= yield %>
+    <header class="header">
+      <div class="btn--menu-mobile">
+        <span class='top'></span>
+        <span class='middle'></span>
+        <span class='bottom'></span>
+      </div>
+
+      <%= link_to root_path, class: "header__logo" do %>
+        <%= image_tag "logos/logo-black.png" %>
+      <% end %>
+
+      <nav class="main-nav main-nav--mobile">
+        <ul class="main-nav-mobile__list">
+        
+          <% if switch_header %>
+            <li class="main-nav-mobile__item text-center">
+              <%= link_to "Ingresar", root_path, class: "main-nav-mobile__link" %> / 
+              <%= link_to "Registrarse", root_path, class: "main-nav-mobile__link" %>
+              <hr class="line-separator">
+            </li>
+          <% else %>  
+            <li class="main-nav-mobile__item">
+              <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
+              <h3>Mateo Olarte</h3>
+              <hr class="line-separator">
+            </li>
+          <% end %>
+        </ul>
+
+        <ul class="main-nav__list hide">
+          <li class="main-nav__item"><%= link_to "Inicio", root_path, class: "main-nav__link main-nav__link--white" %></li>
+          <li class="main-nav__item"><%= link_to "Reportes", root_path, class: "main-nav__link main-nav__link--white" %></li>
+
+          <% if switch_header %>
+            <li class="main-nav__item">
+              <%= link_to "Ingresar", root_path, class: "main-nav__link main-nav__link--white" %> / 
+              <%= link_to "Registrarse", root_path, class: "main-nav__link main-nav__link--white" %>
+            </li>
+          <% else %>  
+            <li class="main-nav__item dropdown-element">
+              <button class="btn--dropdown user-signed" type="button">
+                <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
+                <span class="caret caret--white"></span>
+              </button>
+              <ul class="main-nav__dropdown">
+                <li class="main-nav__dropdown-item"><a href="#">Mi perfil</a></li>
+                <li class="main-nav__dropdown-item"><a href="#" class="logout-link">Salir</a></li>
+              </ul>
+            </li>
+          <% end %>
+          <li class="main-nav__item"><%= link_to "Crear reporte", root_path, class: "btn btn-primary" %></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container">
+      <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum nemo recusandae deserunt optio aspernatur, deleniti odio quo provident doloribus. Dolore officia maiores ratione ducimus atque quis eum corrupti adipisci perspiciatis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam facere eum quod laborum vitae saepe fugiat nam iure obcaecati. Earum libero optio dolores fugiat perspiciatis quibusdam repellendus perferendis voluptatibus sequi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti similique possimus nihil quasi, deserunt quos tempore, architecto repudiandae impedit quibusdam adipisci velit nostrum, enim necessitatibus fugiat alias! Consectetur, eius delectus. lorem</h1>
+      <%= yield %>
+    </main>
   </body>
 </html>

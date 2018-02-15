@@ -1,0 +1,31 @@
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  border-top: 8px dashed $gray;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent; 
+  transition: transform 0.37s $easing;
+
+  &--white {
+    border-top-color: $white;
+  }
+}
+
+.rotate-caret {
+  transform: rotate(-180deg);
+}
+
+.hide {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.line-separator {
+  border-color: lighten($gray, 40%);
+  border-width: 0.5px;
+}

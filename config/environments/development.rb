@@ -51,4 +51,10 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Enable support of Inline source maps for SASS
+  config.sass.inline_source_maps = true
+
+  # Disable comments in files .scss
+  config.sass.line_comments = false
 end

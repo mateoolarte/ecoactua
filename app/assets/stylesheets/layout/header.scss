@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+
+  @media (min-width: $screen-md) {
+    width: 90%;
+    padding: 0;
+  }
+
+  @media (min-width: $screen-lg) {
+    width: 80%;
+  }
+
+  @media (min-width: $screen-xl) {
+    width: 70%;
+  }
+}
+
+.header__logo {
+  width: 60%;
+
+  @media (min-width: $screen-md) {
+    width: 40%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.header__avatar {
+  height: 40px;
+  border-radius: 50%;
+}
