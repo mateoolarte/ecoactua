@@ -5,6 +5,11 @@ $(document).on("turbolinks:load", () => {
     $(".main-nav__dropdown").toggleClass("open-menu-dropdown")
   })
 
+  const breakpoint = window.matchMedia('(max-width: 1023px)')
+
+  // Change Mobile/Desktop menu
+  breakpoint.matches ? $('.main-nav').addClass('main-nav--mobile') : $('.main-nav').removeClass('main-nav--mobile')
+
   // Menu mobile
   const sidebarBox = document.querySelector('.main-nav--mobile'),
     sidebarBtn = document.querySelector('.btn--menu-mobile'),

@@ -13,7 +13,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <% switch_header = false  %>
+  <% switch_header = true  %>
 
   <body>
     <header class="header">
@@ -27,38 +27,46 @@
         <%= image_tag "logos/logo-black.png" %>
       <% end %>
 
-      <nav class="main-nav main-nav--mobile">
-        <ul class="main-nav-mobile__list">
-        
-          <% if switch_header %>
-            <li class="main-nav-mobile__item text-center">
-              <%= link_to "Ingresar", root_path, class: "main-nav-mobile__link" %> / 
-              <%= link_to "Registrarse", root_path, class: "main-nav-mobile__link" %>
-              <hr class="line-separator">
-            </li>
-          <% else %>  
-            <li class="main-nav-mobile__item">
-              <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
-              <h3>Mateo Olarte</h3>
-              <hr class="line-separator">
-            </li>
-          <% end %>
+      <nav class="main-nav">
+
+        <% if switch_header %>
+          <div class="main-nav-mobile__auth text-center">
+            <%= link_to "Ingresar", root_path, class: "main-nav-mobile__link" %> / 
+            <%= link_to "Registrarse", root_path, class: "main-nav-mobile__link" %>
+            <hr class="line-separator">
+          </div>
+        <% else %>  
+          <div class="main-nav-mobile__auth user-signed--mobile">
+            <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
+            <h3 class="main-nav-mobile__username">Mateo Olarte</h3>
+            <div class="main-nav--mobile__actions">
+              <a href="#">Mi perfil</a>
+              <a href="#" class="logout-link">Salir</a>
+            </div>
+            <hr class="line-separator">
+          </div>
+        <% end %>
+
+        <ul class="main-nav-mobile__list text-center">
+          <li class="main-nav-mobile__item"><%= link_to "Inicio", root_path, class: "main-nav__link" %></li>
+          <li class="main-nav-mobile__item"><%= link_to "Reportes", root_path, class: "main-nav__link" %></li>
+          <li class="main-nav-mobile__item"><%= link_to "Crear reporte", root_path, class: "btn btn-primary" %></li>
         </ul>
 
-        <ul class="main-nav__list hide">
-          <li class="main-nav__item"><%= link_to "Inicio", root_path, class: "main-nav__link main-nav__link--white" %></li>
-          <li class="main-nav__item"><%= link_to "Reportes", root_path, class: "main-nav__link main-nav__link--white" %></li>
+        <ul class="main-nav__list">
+          <li class="main-nav__item"><%= link_to "Inicio", root_path, class: "main-nav__link" %></li>
+          <li class="main-nav__item"><%= link_to "Reportes", root_path, class: "main-nav__link" %></li>
 
           <% if switch_header %>
             <li class="main-nav__item">
-              <%= link_to "Ingresar", root_path, class: "main-nav__link main-nav__link--white" %> / 
-              <%= link_to "Registrarse", root_path, class: "main-nav__link main-nav__link--white" %>
+              <%= link_to "Ingresar", root_path, class: "main-nav__link" %> / 
+              <%= link_to "Registrarse", root_path, class: "main-nav__link" %>
             </li>
           <% else %>  
             <li class="main-nav__item dropdown-element">
               <button class="btn--dropdown user-signed" type="button">
                 <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
-                <span class="caret caret--white"></span>
+                <span class="caret"></span>
               </button>
               <ul class="main-nav__dropdown">
                 <li class="main-nav__dropdown-item"><a href="#">Mi perfil</a></li>
