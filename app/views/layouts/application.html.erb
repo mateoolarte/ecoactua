@@ -13,7 +13,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <% switch_header = true  %>
+  <% switch_header = false  %>
 
   <body>
     <header class="header">
@@ -74,12 +74,15 @@
               </ul>
             </li>
           <% end %>
-          <li class="main-nav__item"><%= link_to "Crear reporte", root_path, class: "btn btn-primary" %></li>
+          <li class="main-nav__item"><%= link_to "Crear reporte", new_report_path, class: "btn btn-primary" %></li>
         </ul>
       </nav>
     </header>
     <main class="container">
-      <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum nemo recusandae deserunt optio aspernatur, deleniti odio quo provident doloribus. Dolore officia maiores ratione ducimus atque quis eum corrupti adipisci perspiciatis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam facere eum quod laborum vitae saepe fugiat nam iure obcaecati. Earum libero optio dolores fugiat perspiciatis quibusdam repellendus perferendis voluptatibus sequi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti similique possimus nihil quasi, deserunt quos tempore, architecto repudiandae impedit quibusdam adipisci velit nostrum, enim necessitatibus fugiat alias! Consectetur, eius delectus. lorem</h1>
+      <% if flash[:notice] || flash[:alert] %>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      <% end %>
       <%= yield %>
     </main>
   </body>

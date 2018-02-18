@@ -1,6 +1,7 @@
 .btn {
   display: inline-block;
   padding: 8px 30px;
+  border: 0;
   border-radius: 20px;
   transition: background-color 0.37s $easing;
 
@@ -11,5 +12,10 @@
     &:hover {
       background-color: darken($cyan, 15%);
     }
+  }
+
+  &-large {
+    padding: 10px 60px;
+    font-size: 18px;
   }
 }
