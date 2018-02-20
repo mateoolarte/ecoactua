@@ -30,3 +30,15 @@
   border-color: lighten($gray, 40%);
   border-width: 0.5px;
 }
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+
+.margin-15-auto {
+  margin: 15px auto;
+}
+
+.scale-up {
+  transform: scale(1.2);
+}

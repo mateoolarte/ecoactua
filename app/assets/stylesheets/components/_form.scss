@@ -1,0 +1,96 @@
+form {
+  label {
+    display: inline-block;
+    color: $gray;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+input,
+textarea {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid $gray-light;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+input[type="submit"] {
+  width: auto;
+}
+
+.form-report {
+  max-width: 600px;
+  margin: 30px auto 0;
+}
+
+.form-report__types {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-report__types-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  transition: transform 0.37s $easing;
+  cursor: pointer;
+}
+
+.form-report__types-icon {
+  display: block;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 48px;
+  line-height: 26px;
+
+  &.vegetation-type {
+    background-color: $green;
+
+    i {
+      color: darken($green, 50%);
+    }
+  }
+
+  &.animal-type {
+    background-color: $yellow;
+
+    i {
+      color: darken($yellow, 50%);
+    }
+  }
+
+  &.surface-type {
+    background-color: $orange;
+
+    i {
+      color: darken($orange, 50%);
+    }
+  }
+
+  &.air-type {
+    background-color: $cyan;
+
+    i {
+      color: darken($cyan, 50%);
+    }
+  }
+
+  &.water-type {
+    background-color: $blue;
+
+    i {
+      color: darken($blue, 50%);
+    }
+  }
+}
+
+.form-report__types-text {
+  color: $gray; 
+  font-size: 16px;
+  font-style: normal;
+}

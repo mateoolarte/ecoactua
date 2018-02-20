@@ -1,11 +1,35 @@
 <h1 class="heading text-center">Crear reporte</h1>
 
-<%= form_for @report do |f| %>
+<%= form_for @report, :html => { :class => "form-report" } do |f| %>
   <%= f.text_field :address, placeholder: "Dirección del reporte" %>
-  <%= f.text_area :description, placeholder: "Descripción del reporte" %>:
-  <label>Tipo de reporte</label>
+  <%= f.text_area :description, size: "25x10", placeholder: "Descripción del reporte" %>
+  <%= f.hidden_field :type_report_id %>
 
-  <label>Ubicación en el mapa</label>
+  <label class="margin-15-auto">Tipo de reporte</label>
+  <div class="form-report__types">
+    <span class="form-report__types-box" data-typereport="1">
+      <span class="form-report__types-icon vegetation-type"><i class="icon icon-vegetation-icon"></i></span>
+      <em class="form-report__types-text">Vegetación</em>
+    </span>
+    <span class="form-report__types-box" data-typereport="2">
+      <span class="form-report__types-icon animal-type"><i class="icon icon-animal-icon"></i></span>
+      <em class="form-report__types-text">Animal</em>
+    </span>
+    <span class="form-report__types-box" data-typereport="3">
+      <span class="form-report__types-icon surface-type"><i class="icon icon-surface-icon"></i></span>
+      <em class="form-report__types-text">Superficie</em>
+    </span>
+    <span class="form-report__types-box" data-typereport="4">
+      <span class="form-report__types-icon air-type"><i class="icon icon-air-icon"></i></span>
+      <em class="form-report__types-text">Aire</em>
+    </span>
+    <span class="form-report__types-box" data-typereport="5">
+      <span class="form-report__types-icon water-type"><i class="icon icon-water-icon"></i></span>
+      <em class="form-report__types-text">Agua</em>
+    </span>
+  </div>
+  
+  <label class="margin-top-30">Ubicación en el mapa</label>
 
   <%= f.submit "Crea tu reporte", class: "btn btn-primary btn-large" %>
 <% end %>

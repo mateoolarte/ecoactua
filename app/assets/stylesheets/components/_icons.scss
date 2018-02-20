@@ -1,0 +1,88 @@
+@font-face {
+  font-family: "ecoactua-icons";
+  src: font-url("ecoactua-icons.eot");
+  src: font-url("ecoactua-icons.eot?#iefix") format("embedded-opentype"), 
+       font-url("ecoactua-icons.woff") format("woff"), 
+       font-url("ecoactua-icons.ttf") format("truetype"), 
+       font-url("ecoactua-icons.svg#ecoactua-icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "ecoactua-icons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "ecoactua-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-air-icon:before {
+  content: "\63";
+}
+
+.icon-animal-icon:before {
+  content: "\64";
+}
+
+.icon-delete-icon:before {
+  content: "\65";
+}
+
+.icon-pending-icon:before {
+  content: "\66";
+}
+
+.icon-review-icon:before {
+  content: "\67";
+}
+
+.icon-solved-icon:before {
+  content: "\68";
+}
+
+.icon-search-icon:before {
+  content: "\69";
+}
+
+.icon-step-one:before {
+  content: "\6a";
+}
+
+.icon-step-three:before {
+  content: "\6b";
+}
+
+.icon-step-two:before {
+  content: "\6c";
+}
+
+.icon-surface-icon:before {
+  content: "\6d";
+}
+
+.icon-vegetation-icon:before {
+  content: "\6e";
+}
+
+.icon-water-icon:before {
+  content: "\6f";
+}

@@ -8,32 +8,45 @@ $(document).on("turbolinks:load", () => {
   const breakpoint = window.matchMedia('(max-width: 1023px)')
 
   // Change Mobile/Desktop menu
-  breakpoint.matches ? $('.main-nav').addClass('main-nav--mobile') : $('.main-nav').removeClass('main-nav--mobile')
+  if (breakpoint.matches) {
+    $('.main-nav').addClass('main-nav--mobile')
 
-  // Menu mobile
-  const sidebarBox = document.querySelector('.main-nav--mobile'),
-    sidebarBtn = document.querySelector('.btn--menu-mobile'),
-    pageWrapper = document.querySelector('.container')
+    // Menu mobile
+    const sidebarBox = document.querySelector('.main-nav--mobile'),
+      sidebarBtn = document.querySelector('.btn--menu-mobile'),
+      pageWrapper = document.querySelector('.container')
 
-  sidebarBtn.addEventListener('click', event => {
-    event.stopPropagation()
-    sidebarBtn.classList.toggle('active')
-    sidebarBox.classList.toggle('active')
-  })
+    sidebarBtn.addEventListener('click', event => {
+      event.stopPropagation()
+      sidebarBtn.classList.toggle('active')
+      sidebarBox.classList.toggle('active')
+    })
 
-  pageWrapper.addEventListener('click', event => {
+    pageWrapper.addEventListener('click', event => {
 
-    if (sidebarBox.classList.contains('active')) {
-      sidebarBtn.classList.remove('active')
-      sidebarBox.classList.remove('active')
-    }
-  })
+      if (sidebarBox.classList.contains('active')) {
+        sidebarBtn.classList.remove('active')
+        sidebarBox.classList.remove('active')
+      }
+    })
 
-  window.addEventListener('keydown', event => {
+    window.addEventListener('keydown', event => {
 
-    if (sidebarBox.classList.contains('active') && event.keyCode === 27) {
-      sidebarBtn.classList.remove('active')
-      sidebarBox.classList.remove('active')
-    }
+      if (sidebarBox.classList.contains('active') && event.keyCode === 27) {
+        sidebarBtn.classList.remove('active')
+        sidebarBox.classList.remove('active')
+      }
+    })
+  } else {
+    $('.main-nav').removeClass('main-nav--mobile')
+  }
+
+  $(".form-report__types-box").on("click", function () {
+    const typeReportID = $(this).data("typereport")
+    console.log(typeReportID)
+    $("input#report_type_report_id").attr("value", typeReportID)
+    
+    $(".form-report__types-box").removeClass("scale-up")
+    $(this).addClass("scale-up")
   })
 })
