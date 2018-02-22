@@ -4,6 +4,10 @@
   <%= f.text_field :address, placeholder: "Dirección del reporte" %>
   <%= f.text_area :description, size: "25x10", placeholder: "Descripción del reporte" %>
   <%= f.hidden_field :type_report_id %>
+  <%= f.hidden_field :state, :value => "Pendiente" %>
+  <%= f.hidden_field :pointlat %>
+  <%= f.hidden_field :pointlong %>
+  <%= f.hidden_field :user_id %>
 
   <label class="margin-15-auto">Tipo de reporte</label>
   <div class="form-report__types">
@@ -29,7 +33,59 @@
     </span>
   </div>
   
-  <label class="margin-top-30">Ubicación en el mapa</label>
+  <label class="margin-top-30">Ubicación en el mapa <span>( Haz clic sobre el mapa para ubicar el lugar del reporte )</span></label>
 
-  <%= f.submit "Crea tu reporte", class: "btn btn-primary btn-large" %>
+  <div id="map"></div>
+
+  <div class="text-center margin-top-540">
+    <%= f.submit "Crea tu reporte", class: "btn btn-primary btn-large text-center btn-create-report" %>
+  </div>
 <% end %>
+
+<script>
+  function initMap() {
+    let markers = []
+    let latPointField = $("#report_pointlat")
+    let longPointField = $("#report_pointlong")
+
+    const defaultLocation = {
+      lat: 6.249451,
+      lng: -75.576035
+    }
+
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: defaultLocation
+    })
+
+    // This event listener will call addMarker() when the map is clicked.
+    map.addListener('click', function(event) {
+
+      deleteMarkers()
+
+      addMarker(event.latLng)
+
+      latPointField.attr("value", event.latLng.lat())
+      longPointField.attr("value", event.latLng.lng())
+    })
+
+    // Adds a marker to the map and push to the array.
+    const addMarker = (location) => {
+      const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: "/assets/point-map.png"
+      })
+
+      markers.push(marker)
+
+      map.setCenter(marker.getPosition())
+    }
+
+    // Deletes all markers in the array by removing references to them.
+    const deleteMarkers = () => {
+      markers.forEach((element, index) => markers[index].setMap(null))
+      markers = []
+    }
+  }
+</script>

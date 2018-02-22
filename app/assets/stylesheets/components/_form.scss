@@ -4,6 +4,18 @@ form {
     color: $gray;
     font-size: 18px;
     font-weight: bold;
+
+    span {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: normal;
+
+      @media (min-width: $screen-sm) {
+        display: inline;
+        font-size: 14px;
+      }
+    }
   }
 }
 
@@ -19,16 +31,26 @@ textarea {
 
 input[type="submit"] {
   width: auto;
+  cursor: pointer;
 }
 
 .form-report {
   max-width: 600px;
-  margin: 30px auto 0;
+  margin: 30px auto;
+  padding: 0 15px;
+
+  @media (min-width: $screen-sm) {
+    padding: 0;
+  }
 }
 
 .form-report__types {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+
+  @media (min-width: $screen-sm) {
+    justify-content: space-between;
+  }
 }
 
 .form-report__types-box {
@@ -43,10 +65,16 @@ input[type="submit"] {
 .form-report__types-icon {
   display: block;
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 8px;
   border-radius: 8px;
-  font-size: 48px;
-  line-height: 26px;
+  font-size: 24px;
+  line-height: 12px;
+
+  @media (min-width: $screen-sm) {
+    padding: 15px;
+    font-size: 48px;
+    line-height: 26px;
+  }
 
   &.vegetation-type {
     background-color: $green;
@@ -91,6 +119,10 @@ input[type="submit"] {
 
 .form-report__types-text {
   color: $gray; 
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
+
+  @media (min-width: $screen-sm) {
+    font-size: 16px;
+  }
 }

@@ -40,13 +40,4 @@ $(document).on("turbolinks:load", () => {
   } else {
     $('.main-nav').removeClass('main-nav--mobile')
   }
-
-  $(".form-report__types-box").on("click", function () {
-    const typeReportID = $(this).data("typereport")
-    console.log(typeReportID)
-    $("input#report_type_report_id").attr("value", typeReportID)
-    
-    $(".form-report__types-box").removeClass("scale-up")
-    $(this).addClass("scale-up")
-  })
 })

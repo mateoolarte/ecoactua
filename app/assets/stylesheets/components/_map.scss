@@ -1,0 +1,12 @@
+#map {
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 500px;
+  margin: 20px auto;
+
+  @media (min-width: $screen-md) {
+    width: 80%;
+  }
+}
