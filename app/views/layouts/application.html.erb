@@ -12,10 +12,9 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-  <% switch_header = false  %>
-
   <body>
+    <% user_signed_in? ? signed_user = User.find(current_user.id) : "" %>
+
     <header class="header">
       <div class="btn--menu-mobile">
         <span class='top'></span>
@@ -29,49 +28,49 @@
 
       <nav class="main-nav">
 
-        <% if switch_header %>
-          <div class="main-nav-mobile__auth text-center">
-            <%= link_to "Ingresar", root_path, class: "main-nav-mobile__link" %> / 
-            <%= link_to "Registrarse", root_path, class: "main-nav-mobile__link" %>
-            <hr class="line-separator">
-          </div>
-        <% else %>  
+        <% if user_signed_in? %>
           <div class="main-nav-mobile__auth user-signed--mobile">
             <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
-            <h3 class="main-nav-mobile__username">Mateo Olarte</h3>
+            <h3 class="main-nav-mobile__username"><%= signed_user.firstname %> <%= signed_user.lastname %></h3>
             <div class="main-nav--mobile__actions">
-              <a href="#">Mi perfil</a>
-              <a href="#" class="logout-link">Salir</a>
+              <%= link_to "Mi perfil", user_profile_path(signed_user.username) %>
+              <%= link_to "Salir", destroy_user_session_path, class: "logout-link", method: :delete %>
             </div>
+            <hr class="line-separator">
+          </div>
+        <% else %>
+          <div class="main-nav-mobile__auth text-center">
+            <%= link_to "Ingresar", new_user_session_path, class: "main-nav-mobile__link" %> / 
+            <%= link_to "Registrarse", new_user_registration_path, class: "main-nav-mobile__link" %>
             <hr class="line-separator">
           </div>
         <% end %>
 
         <ul class="main-nav-mobile__list text-center">
           <li class="main-nav-mobile__item"><%= link_to "Inicio", root_path, class: "main-nav__link" %></li>
-          <li class="main-nav-mobile__item"><%= link_to "Reportes", root_path, class: "main-nav__link" %></li>
+          <li class="main-nav-mobile__item"><%= link_to "Reportes", reports_path, class: "main-nav__link" %></li>
           <li class="main-nav-mobile__item"><%= link_to "Crear reporte", new_report_path, class: "btn btn-primary" %></li>
         </ul>
 
         <ul class="main-nav__list">
           <li class="main-nav__item"><%= link_to "Inicio", root_path, class: "main-nav__link" %></li>
-          <li class="main-nav__item"><%= link_to "Reportes", root_path, class: "main-nav__link" %></li>
+          <li class="main-nav__item"><%= link_to "Reportes", reports_path, class: "main-nav__link" %></li>
 
-          <% if switch_header %>
-            <li class="main-nav__item">
-              <%= link_to "Ingresar", root_path, class: "main-nav__link" %> / 
-              <%= link_to "Registrarse", root_path, class: "main-nav__link" %>
-            </li>
-          <% else %>  
+          <% if user_signed_in? %>
             <li class="main-nav__item dropdown-element">
               <button class="btn--dropdown user-signed" type="button">
                 <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
                 <span class="caret"></span>
               </button>
               <ul class="main-nav__dropdown">
-                <li class="main-nav__dropdown-item"><a href="#">Mi perfil</a></li>
-                <li class="main-nav__dropdown-item"><a href="#" class="logout-link">Salir</a></li>
+                <li class="main-nav__dropdown-item"><%= link_to "Mi perfil", user_profile_path(signed_user.username) %></li>
+                <li class="main-nav__dropdown-item"><%= link_to "Salir", destroy_user_session_path, class: "logout-link", method: :delete %></li>
               </ul>
+            </li>
+          <% else %>  
+            <li class="main-nav__item">
+              <%= link_to "Ingresar", new_user_session_path, class: "main-nav__link" %> / 
+              <%= link_to "Registrarse", new_user_registration_path, class: "main-nav__link" %>
             </li>
           <% end %>
           <li class="main-nav__item"><%= link_to "Crear reporte", new_report_path, class: "btn btn-primary" %></li>

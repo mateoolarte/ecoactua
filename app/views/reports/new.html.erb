@@ -7,7 +7,7 @@
   <%= f.hidden_field :state, :value => "Pendiente" %>
   <%= f.hidden_field :pointlat %>
   <%= f.hidden_field :pointlong %>
-  <%= f.hidden_field :user_id %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
 
   <label class="margin-15-auto">Tipo de reporte</label>
   <div class="form-report__types">

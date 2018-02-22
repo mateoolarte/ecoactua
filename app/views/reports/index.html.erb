@@ -1,0 +1,13 @@
+<% @reports.each do |report| %>
+  <p><%= report.address %></p>
+  <p><%= report.description %></p>
+  <p><%= report.state %></p>
+  <p><%= TypeReport.find(report.type_report_id).name %></p>
+  <p><%= User.find(report.user_id).email %></p>
+  <p>
+    <strong>Latitud:</strong> <%= report.pointlat %> 
+  </p>
+  <p>
+    <strong>Longitud:</strong> <%= report.pointlong %> 
+  </p>
+<% end %>
