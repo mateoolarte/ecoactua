@@ -1,13 +1,71 @@
-<% @reports.each do |report| %>
-  <p><%= report.address %></p>
-  <p><%= report.description %></p>
-  <p><%= report.state %></p>
-  <p><%= TypeReport.find(report.type_report_id).name %></p>
-  <p><%= User.find(report.user_id).email %></p>
-  <p>
-    <strong>Latitud:</strong> <%= report.pointlat %> 
-  </p>
-  <p>
-    <strong>Longitud:</strong> <%= report.pointlong %> 
-  </p>
-<% end %>
+<h1 class="heading text-center">Reportes</h1>
+
+<div id="map_general"></div>
+
+<section class="table-reports">
+  <header class="order-in-table">
+    <h4 class="table-reports__title">Reportes</h4>
+    <h4 class="table-reports__title text-center">Tipo de reporte</h4>
+    <h4 class="table-reports__title text-center">Estado</h4>
+  </header>
+
+  <% @reports.each do |report| %>
+    <article class="table-reports__item order-in-table">
+      <p class="table-reports__text"><%= report.description %></p>
+      <span class="form-report__types-box block-click">
+        <% type_report = TypeReport.find(report.type_report_id).name %>
+        <span class="form-report__types-icon <%= type_report.downcase %>-type"><i class="icon icon-<%= type_report.downcase %>-icon"></i></span>
+        <em class="form-report__types-text"><%= type_report %></em>
+      </span>
+      <span class="table-reports__state state-color-<%= report.state == "En revisión" ? "Revision" : report.state %>">
+        <i class="icon icon-<%= report.state == "En revisión" ? "revision" : report.state.downcase %>-icon"></i>
+        <%= report.state %>
+      </span>
+    </article>
+  <% end %>
+</section>
+
+<script>
+  function initMap() {
+    let markers = []
+    let contentMaker
+  
+    const defaultLocation = {
+      lat: 6.249451,
+      lng: -75.576035
+    }
+
+    const map = new google.maps.Map(document.getElementById('map_general'), {
+      zoom: 13,
+      center: defaultLocation
+    })
+
+    // Adds a marker to the map and push to the array.
+    const addMarker = (location, contentWindow) => {
+      const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: "/assets/point-map.png"
+      })
+
+      const infowindow = new google.maps.InfoWindow({
+        content: contentWindow
+      })
+
+      markers.push(marker)
+
+      marker.addListener('click', () => infowindow.open(map, marker))
+    }
+
+    <% @reports.each do |report| %>
+      contentMaker = `<div class="map-general__window-container">
+                        <h3 class="map-general__window-title">Dirección: <%= report.address %></h3>
+                        <p class="map-general__window-description"><strong>Descripción: </strong><%= report.description %></p>
+                        <div class="state-color-<%= report.state == "En revisión" ? "Revision" : report.state %>">
+                          <strong>Estado del reporte:</strong> <span><%= report.state %></span>
+                        </div>
+                      </div>`
+      addMarker({ lat: <%= report.pointlat %>, lng: <%= report.pointlong %> }, contentMaker)
+    <% end %>
+  }
+</script>

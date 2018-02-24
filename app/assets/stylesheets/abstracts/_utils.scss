@@ -35,6 +35,10 @@
   margin-top: 30px;
 }
 
+.margin-top-50 {
+  margin-top: 50px;
+}
+
 .margin-15-auto {
   margin: 15px auto;
 }
@@ -45,4 +49,8 @@
 
 .scale-up {
   transform: scale(1.2);
+}
+
+.block-click {
+  cursor: auto !important;
 }

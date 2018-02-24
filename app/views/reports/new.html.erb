@@ -12,7 +12,7 @@
   <label class="margin-15-auto">Tipo de reporte</label>
   <div class="form-report__types">
     <span class="form-report__types-box" data-typereport="1">
-      <span class="form-report__types-icon vegetation-type"><i class="icon icon-vegetation-icon"></i></span>
+      <span class="form-report__types-icon vegetación-type"><i class="icon icon-vegetación-icon"></i></span>
       <em class="form-report__types-text">Vegetación</em>
     </span>
     <span class="form-report__types-box" data-typereport="2">
@@ -20,22 +20,22 @@
       <em class="form-report__types-text">Animal</em>
     </span>
     <span class="form-report__types-box" data-typereport="3">
-      <span class="form-report__types-icon surface-type"><i class="icon icon-surface-icon"></i></span>
+      <span class="form-report__types-icon superficie-type"><i class="icon icon-superficie-icon"></i></span>
       <em class="form-report__types-text">Superficie</em>
     </span>
     <span class="form-report__types-box" data-typereport="4">
-      <span class="form-report__types-icon air-type"><i class="icon icon-air-icon"></i></span>
+      <span class="form-report__types-icon aire-type"><i class="icon icon-aire-icon"></i></span>
       <em class="form-report__types-text">Aire</em>
     </span>
     <span class="form-report__types-box" data-typereport="5">
-      <span class="form-report__types-icon water-type"><i class="icon icon-water-icon"></i></span>
+      <span class="form-report__types-icon agua-type"><i class="icon icon-agua-icon"></i></span>
       <em class="form-report__types-text">Agua</em>
     </span>
   </div>
   
   <label class="margin-top-30">Ubicación en el mapa <span>( Haz clic sobre el mapa para ubicar el lugar del reporte )</span></label>
 
-  <div id="map"></div>
+  <div id="map_create_report"></div>
 
   <div class="text-center margin-top-540">
     <%= f.submit "Crea tu reporte", class: "btn btn-primary btn-large text-center btn-create-report" %>
@@ -53,7 +53,7 @@
       lng: -75.576035
     }
 
-    const map = new google.maps.Map(document.getElementById('map'), {
+    const map = new google.maps.Map(document.getElementById('map_create_report'), {
       zoom: 13,
       center: defaultLocation
     })

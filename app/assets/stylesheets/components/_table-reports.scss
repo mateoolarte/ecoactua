@@ -1,0 +1,79 @@
+.order-in-table {
+  display: grid;
+  grid-template-columns: 100% 50% 50%;
+  grid-column-end: 3;
+  align-items: center;
+
+  @media (min-width: $screen-sm) {
+    grid-template-columns: 60% 20% 20%;
+  }
+}
+
+.table-reports {
+  width: 90%;
+  margin: 30px auto 50px;
+  overflow-x: scroll;
+
+  @media (min-width: $screen-sm) {
+    width: 80%;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: $screen-xl) {
+    width: 60%;
+  }
+}
+
+.table-reports__item {
+  
+  @media (min-width: $screen-sm) {
+    padding: 12px 0;
+    border-top: 1px solid lighten($gray, 30%);
+  }
+}
+
+.table-reports__text {
+  font-size: 15px;
+
+  @media (min-width: $screen-sm) {
+    font-size: 18px;
+  }
+}
+
+.table-reports__title {
+  margin: 5px 0;
+  color: $gray;
+
+  @media (min-width: $screen-sm) {
+    margin: 15px 0;
+  }
+}
+
+.table-reports__state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+
+  @media (min-width: $screen-sm) {
+    font-size: 18px;
+  }
+
+  i {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 24px;
+  }
+}
+
+.state-color-Pendiente {
+  color: $gray;
+}
+
+.state-color-Revision {
+  color: $cyan;
+}
+
+.state-color-Solucionado {
+  color: $green;
+}

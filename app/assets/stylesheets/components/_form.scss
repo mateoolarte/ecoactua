@@ -71,12 +71,12 @@ input[type="submit"] {
   line-height: 12px;
 
   @media (min-width: $screen-sm) {
-    padding: 15px;
-    font-size: 48px;
-    line-height: 26px;
+    padding: 12px;
+    font-size: 38px;
+    line-height: 20px;
   }
 
-  &.vegetation-type {
+  &.vegetación-type {
     background-color: $green;
 
     i {
@@ -92,7 +92,7 @@ input[type="submit"] {
     }
   }
 
-  &.surface-type {
+  &.superficie-type {
     background-color: $orange;
 
     i {
@@ -100,7 +100,7 @@ input[type="submit"] {
     }
   }
 
-  &.air-type {
+  &.aire-type {
     background-color: $cyan;
 
     i {
@@ -108,7 +108,7 @@ input[type="submit"] {
     }
   }
 
-  &.water-type {
+  &.agua-type {
     background-color: $blue;
 
     i {

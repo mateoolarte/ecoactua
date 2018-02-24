@@ -21,11 +21,7 @@
 }
 
 .header__logo {
-  width: 60%;
-
-  @media (min-width: $screen-md) {
-    width: 40%;
-  }
+  width: 230px;
 
   img {
     max-width: 100%;
