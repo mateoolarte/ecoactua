@@ -5,6 +5,7 @@
 @import "base/typography";
 
 @import "layout/header";
+@import "layout/footer";
 @import "layout/navigation";
 
 @import "components/buttons";
@@ -14,3 +15,5 @@
 @import "components/table-reports";
 
 @import "pages/home";
+@import "pages/profile";
+@import "pages/admin";

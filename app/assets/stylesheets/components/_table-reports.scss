@@ -7,16 +7,24 @@
   @media (min-width: $screen-sm) {
     grid-template-columns: 60% 20% 20%;
   }
+
+  &--alt {
+    grid-template-columns: 70% 30% 50% 50%;
+    grid-column-end: 4;
+
+    @media (min-width: $screen-sm) {
+      grid-template-columns: 40% 25% 20% 15%;
+    }
+  }
 }
 
 .table-reports {
-  width: 90%;
+  width: 80%;
   margin: 30px auto 50px;
-  overflow-x: scroll;
 
-  @media (min-width: $screen-sm) {
-    width: 80%;
-    overflow-x: hidden;
+  @media (max-width: $screen-sm) {
+    width: 90%;
+    overflow-x: scroll;
   }
 
   @media (min-width: $screen-xl) {
@@ -49,7 +57,8 @@
   }
 }
 
-.table-reports__state {
+.table-reports__state,
+.table-reports__delete {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,17 +72,34 @@
     display: inline-block;
     margin-right: 5px;
     font-size: 24px;
+    line-height: 14px;
   }
+}
+
+.table-reports__delete {
+  color: $red;
 }
 
 .state-color-Pendiente {
   color: $gray;
+
+  .caret {
+    border-top-color: $gray;
+  }
 }
 
 .state-color-Revision {
   color: $cyan;
+
+  .caret {
+    border-top-color: $cyan;
+  }
 }
 
 .state-color-Solucionado {
   color: $green;
+
+  .caret {
+    border-top-color: $green;
+  }
 }

@@ -25,6 +25,10 @@
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .line-separator {
   margin: 20px 0;
   border-color: lighten($gray, 40%);
@@ -37,6 +41,14 @@
 
 .margin-top-50 {
   margin-top: 50px;
+}
+
+.margin-top-80 {
+  margin-top: 80px;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
 }
 
 .margin-15-auto {

@@ -20,7 +20,8 @@ form {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   margin: 10px 0;
   padding: 10px;
@@ -29,9 +30,20 @@ textarea {
   font-size: 16px;
 }
 
+select {
+  height: 40px;
+  background: transparent;
+}
+
 input[type="submit"] {
   width: auto;
   cursor: pointer;
+}
+
+.form__auth {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-report {

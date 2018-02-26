@@ -15,15 +15,27 @@
   <body>
     <% user_signed_in? ? signed_user = User.find(current_user.id) : "" %>
 
+    <% if current_page?(root_url) %>
+      <% logo_url = "logos/logo-white.png" %>
+      <% link_nav = "main-nav__link main-nav__link--white" %>
+      <% btn_mobile = "btn--menu-mobile btn--menu-mobile--white" %>
+      <% caret_icon = "caret caret--white" %>
+    <% else %>
+      <% logo_url = "logos/logo-black.png" %>
+      <% link_nav = "main-nav__link" %>
+      <% btn_mobile = "btn--menu-mobile" %>
+      <% caret_icon = "caret" %>
+    <% end %>
+
     <header class="header">
-      <div class="btn--menu-mobile">
+      <div class="<%= btn_mobile %>">
         <span class='top'></span>
         <span class='middle'></span>
         <span class='bottom'></span>
       </div>
 
       <%= link_to root_path, class: "header__logo" do %>
-        <%= image_tag "logos/logo-black.png" %>
+        <%= image_tag logo_url %>
       <% end %>
 
       <nav class="main-nav">
@@ -53,14 +65,14 @@
         </ul>
 
         <ul class="main-nav__list">
-          <li class="main-nav__item"><%= link_to "Inicio", root_path, class: "main-nav__link" %></li>
-          <li class="main-nav__item"><%= link_to "Reportes", reports_path, class: "main-nav__link" %></li>
+          <li class="main-nav__item"><%= link_to "Inicio", root_path, class: link_nav %></li>
+          <li class="main-nav__item"><%= link_to "Reportes", reports_path, class: link_nav %></li>
 
           <% if user_signed_in? %>
             <li class="main-nav__item dropdown-element">
               <button class="btn--dropdown user-signed" type="button">
                 <%= image_tag "default-photo-profile.png", class: "header__avatar" %>
-                <span class="caret"></span>
+                <span class="<%= caret_icon %>"></span>
               </button>
               <ul class="main-nav__dropdown">
                 <li class="main-nav__dropdown-item"><%= link_to "Mi perfil", user_profile_path(signed_user.username) %></li>
@@ -69,8 +81,8 @@
             </li>
           <% else %>  
             <li class="main-nav__item">
-              <%= link_to "Ingresar", new_user_session_path, class: "main-nav__link" %> / 
-              <%= link_to "Registrarse", new_user_registration_path, class: "main-nav__link" %>
+              <%= link_to "Ingresar", new_user_session_path, class: link_nav %> / 
+              <%= link_to "Registrarse", new_user_registration_path, class: link_nav %>
             </li>
           <% end %>
           <li class="main-nav__item"><%= link_to "Crear reporte", new_report_path, class: "btn btn-primary" %></li>
@@ -85,6 +97,20 @@
       <%= yield %>
     </main>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7fBDU_tVmqTL_zqIAVC_317qfyYH7Js&callback=initMap"></script>
+    <% if current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+      <% footer_styles = "footer footer--bottom" %>
+    <% else %>  
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7fBDU_tVmqTL_zqIAVC_317qfyYH7Js&callback=initMap"></script>
+      <% footer_styles = "footer" %>
+    <% end %>
+
+    <footer class="<%= footer_styles %>">
+      <p>© Ecoactua <%= Date.today.strftime("%Y") %></p>
+      <p class="footer__develop-by">
+        Hecho con ♥ desde Medellín, 
+        Desarrollado por <a href="https://mateoolarte.com" target="_blank">Mateo Olarte</a> - 
+        Diseñado por <a href="http://danielcarta.com/" target="_blank">Daniel Cartagena</a> 
+      </p>
+    </footer>
   </body>
 </html>

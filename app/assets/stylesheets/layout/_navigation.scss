@@ -136,7 +136,7 @@
 
 .btn--menu-mobile {
   position: fixed;
-  top: 20px;
+  top: 25px;
   right: 20px;
   transition: right 500ms $easing;
   z-index: 2;
@@ -167,6 +167,13 @@
     .bottom {
       transform: translateY(-10px) rotate(-45deg);
     }
+  }
+}
+
+.btn--menu-mobile--white {
+  span {
+    background-color: $white;
+    box-shadow: 0px 2px 7px $gray;
   }
 }
 

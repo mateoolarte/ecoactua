@@ -9,4 +9,7 @@ $(document).on("turbolinks:load", () => {
       $(this).addClass("scale-up")
     }
   })
+
+  $("#state option:first").attr("label", "Estado del reporte")
+  $("#type_report_id option:first").attr("label", "Tipo de reporte")
 })
