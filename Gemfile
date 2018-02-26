@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Trick for install Jquery with Yarn package
-gem 'webpacker', require: false
+# gem 'webpacker', require: false
 
 # Use Devise for authentication and Users
 gem 'devise'
