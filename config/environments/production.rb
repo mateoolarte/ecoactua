@@ -88,4 +88,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Support for ES6 syntax   
+  config.assets.js_compressor = Uglifier.new(harmony: true)
 end
