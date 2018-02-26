@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # User webpacker for trick Jquery installation
-gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
+gem 'webpacker', require: false
 
 # Use Devise for authentication and Users
 gem 'devise'
