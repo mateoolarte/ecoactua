@@ -1,5 +1,13 @@
 <h1 class="heading text-center">Crear reporte</h1>
 
+<% if @report.errors.any? %>
+<ul>
+  <% @report.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+
 <%= form_for @report, :html => { :class => "form-report" } do |f| %>
   <%= f.text_field :address, placeholder: "Dirección del reporte" %>
   <%= f.text_area :description, size: "25x10", placeholder: "Descripción del reporte" %>
