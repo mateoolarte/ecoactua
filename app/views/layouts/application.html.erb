@@ -16,12 +16,12 @@
     <% user_signed_in? ? signed_user = User.find(current_user.id) : "" %>
 
     <% if current_page?(root_url) %>
-      <% logo_url = "logos/logo-white.png" %>
+      <% logo_url = "logos/logo-white.svg" %>
       <% link_nav = "main-nav__link main-nav__link--white" %>
       <% btn_mobile = "btn--menu-mobile btn--menu-mobile--white" %>
       <% caret_icon = "caret caret--white" %>
     <% else %>
-      <% logo_url = "logos/logo-black.png" %>
+      <% logo_url = "logos/logo-black.svg" %>
       <% link_nav = "main-nav__link" %>
       <% btn_mobile = "btn--menu-mobile" %>
       <% caret_icon = "caret" %>
