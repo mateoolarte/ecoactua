@@ -1,2 +1,0 @@
-class TypeReport < ApplicationRecord
-end
