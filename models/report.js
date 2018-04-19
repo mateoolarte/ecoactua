@@ -6,9 +6,8 @@ const report = new Schema({
   description: String,
   pointlat: String,
   pointlong: String,
-  state: String,
-  type: String,
-  user: String
+  state: {type: String, default: "Pendiente"},
+  type: String
 });
 
 module.exports = mongoose.model("Report", report);

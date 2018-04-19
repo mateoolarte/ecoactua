@@ -6,9 +6,10 @@ const user = new Schema({
   firstName: String,
   LastName: String,
   email: String,
-  role: String,
-  username: String,
-  reports: [{type: ObjectId, ref: "Report"}]
-})
+  role: { type: String, default: "user" },
+  username: { type: String, unique: true },
+  password: { type: String, required: true },
+  reports: [{ type: ObjectId, ref: "Report" }]
+});
 
-module.exports = mongoose.model("User", user)
+module.exports = mongoose.model("User", user);
