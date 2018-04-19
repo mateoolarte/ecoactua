@@ -1,0 +1,13 @@
+{
+  "name": "ecoactua",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "git@github.com:mateoolarte/ecoactua.git",
+  "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.15"
+  }
+}
