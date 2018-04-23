@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
@@ -8,10 +9,11 @@ const db = mongoose.connect("mongodb://localhost/ecoactua");
 const Report = require("./models/report");
 const User = require("./models/user");
 
+app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/reportes", (req, res) => {
+app.get("/api/reportes", (req, res) => {
   Report.find({}, (err, reports) => {
     if (err) {
       res.status(500).send({ err: "We have errors with the reports" });
@@ -21,7 +23,7 @@ app.get("/reportes", (req, res) => {
   });
 });
 
-app.post("/reporte", (req, res) => {
+app.post("/api/reporte", (req, res) => {
   const report = new Report();
   report.address = req.body.address;
   report.description = req.body.description;
@@ -34,31 +36,38 @@ app.post("/reporte", (req, res) => {
     if (err) {
       res.status(500).send({ err: "No pudo guardar el reporte correctamente" });
     } else {
-      User.update({_id: req.body.userId}, {$addToSet: { reports: savedReport._id }}, (err, user) => {
-        if (err) {
-          res.status(500).send({ err: "No pudo integrar el usuario al reporte correctamente" });
+      User.update(
+        { _id: req.body.userId },
+        { $addToSet: { reports: savedReport._id } },
+        (err, user) => {
+          if (err) {
+            res
+              .status(500)
+              .send({
+                err: "No pudo integrar el usuario al reporte correctamente"
+              });
+          }
         }
-      })
+      );
 
       res.send(savedReport);
     }
   });
 });
 
-app.get("/usuarios", (req, res) => {
-  User
-    .find({})
+app.get("/api/usuarios", (req, res) => {
+  User.find({})
     .populate("reports")
     .exec((err, user) => {
-    if (err) {
-      res.status(500).send({ err: "We have errors with the users" });
-    } else {
-      res.send(user);
-    }
-  });
+      if (err) {
+        res.status(500).send({ err: "We have errors with the users" });
+      } else {
+        res.send(user);
+      }
+    });
 });
 
-app.post("/usuario", (req, res) => {
+app.post("/api/usuario", (req, res) => {
   const user = new User();
   user.firstName = req.body.firstName;
   user.LastName = req.body.LastName;
@@ -75,4 +84,12 @@ app.post("/usuario", (req, res) => {
   });
 });
 
-app.listen(3001, () => console.log("Listening on port 3001!"));
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => console.log(`Listening on port ${port}!`));
