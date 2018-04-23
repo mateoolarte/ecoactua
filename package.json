@@ -15,9 +15,10 @@
   },
   "scripts": {
     "start": "node server.js",
+    "server": "nodemon server.js",
     "heroku-postbuild": "cd client && yarn --production=false && yarn run build",
     "client": "cd client && yarn start",
-    "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "devDependencies": {
     "concurrently": "^3.5.1"
