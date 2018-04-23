@@ -6,21 +6,15 @@
   "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
-    "mongoose": "^5.0.15"
+    "concurrently": "^3.5.1"
+  },
+  "scripts": {
+    "install": "(cd client && yarn) && (cd server && yarn)",
+    "dev": "concurrently \"cd client && PORT=3000 yarn start\" \"cd server && PORT=5000 yarn server\"",
+    "start": "cd server && yarn start",
+    "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
   },
   "engines": {
     "node": "9.10.0"
-  },
-  "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "heroku-postbuild": "cd client && yarn --production=false && yarn run build",
-    "client": "cd client && yarn start",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
-  },
-  "devDependencies": {
-    "concurrently": "^3.5.1"
   }
 }

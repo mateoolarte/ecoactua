@@ -10,7 +10,7 @@ const db = mongoose.connect(urlDB);
 const Report = require("./models/report");
 const User = require("./models/user");
 
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
