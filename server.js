@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const app = express();
-const db = mongoose.connect("mongodb://localhost/ecoactua");
+const db = mongoose.connect("mongodb://heroku_gtf30mrr:qlc21i77q5urpseo471vupgsdb@ds143678.mlab.com:43678/heroku_gtf30mrr");
 
 const Report = require("./models/report");
 const User = require("./models/user");
