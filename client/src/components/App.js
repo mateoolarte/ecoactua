@@ -1,38 +1,43 @@
-import React, { Component } from "react";
-import "../styles/App.css";
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+import Header from "./Header";
+import HomePage from "./HomePage";
+import Reports from "./Reports";
 
-    this.state = {
-      reports: []
-    };
-  }
+export default class App extends Component {
+  // constructor(props) {
+  //   super(props);
 
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ reports: res }))
-      .catch(err => console.log(err));
-  }
+  //   this.state = {
+  //     reports: []
+  //   };
+  // }
 
-  callApi = async () => {
-    const response = await fetch("/api/usuarios");
-    const body = await response.json();
+  // componentDidMount() {
+  //   this.callApi()
+  //     .then(res => this.setState({ reports: res }))
+  //     .catch(err => console.log(err));
+  // }
 
-    if (response.status !== 200) throw Error(body.message);
+  // callApi = async () => {
+  //   const response = await fetch("/api/usuarios");
+  //   const body = await response.json();
 
-    return body;
-  };
+  //   if (response.status !== 200) throw Error(body.message);
+
+  //   return body;
+  // };
 
   render() {
-    console.log(this.state.reports);
     return (
-      <div className="App">
-        <h1>Hi!</h1>
-      </div>
+      <Router>
+        <Fragment>
+          <Header />
+          <Route exact path="/" component={HomePage} />
+          <Route path="/reportes" component={Reports} />
+        </Fragment>
+      </Router>
     );
   }
 }
-
-export default App;
