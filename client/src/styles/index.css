@@ -1,5 +1,159 @@
+:root {
+  --black: #252727;
+  --gray: #6b7373;
+  --gray-light: #e1e6e6;
+  --white: #fff;
+  --cyan: #66ccc6;
+  --cyan-darken: #39aca5;
+  --red: #fe2641;
+  --green: #66cc83;
+  --yellow: #deb940;
+  --orange: #cb865c;
+  --blue: #66a9cc;
+
+  --font: "Asap", sans-serif;
+
+  --screen-xs: 480px;
+  --screen-sm: 768px;
+  --screen-md: 1024px;
+  --screen-lg: 1270px;
+  --screen-xl: 1680px;
+
+  --easing: cubic-bezier(0.6, 0.05, 0.28, 0.91);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  font-family: var(--font);
+  font-size: 18px;
 }
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Utils */
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  border-top: 8px dashed var(--gray);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  transition: transform 0.37s var(--easing);
+}
+.caret--white {
+  border-top-color: var(--white);
+}
+
+.rotate-caret {
+  transform: rotate(-180deg);
+}
+
+.hide {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.line-separator {
+  margin: 20px 0;
+  border-color: var(--gray-light);
+  border-width: 0.5px;
+}
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+
+.margin-top-50 {
+  margin-top: 50px;
+}
+
+.margin-top-80 {
+  margin-top: 80px;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px !important;
+}
+
+.margin-15-auto {
+  margin: 15px auto;
+}
+
+.margin-top-540 {
+  margin-top: 540px;
+}
+
+.scale-up {
+  transform: scale(1.2);
+}
+
+.block-click {
+  cursor: auto !important;
+}
+/* Utils end */
+
+/* Typography */
+p,
+a {
+  color: var(--gray);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--black);
+}
+
+.heading {
+  font-size: 32px;
+}
+/* Typography end */
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 8px 30px;
+  border: 0;
+  border-radius: 20px;
+  transition: background-color 0.37s cubic-bezier(0.6, 0.05, 0.28, 0.91);
+}
+.btn-primary {
+  color: #fff;
+  background-color: var(--cyan);
+}
+.btn-primary:hover {
+  background-color: var(--cyan-darken);
+}
+.btn-large {
+  padding: 10px 50px;
+  font-size: 18px;
+}
+/* Buttons end */

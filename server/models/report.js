@@ -6,7 +6,7 @@ const report = new Schema({
   description: String,
   pointlat: String,
   pointlong: String,
-  state: {type: String, default: "Pendiente"},
+  state: { type: String, default: "Pendiente" },
   type: String
 });
 
