@@ -2,6 +2,13 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+// Const for passport
+const passport=require('passport');
+//end for passport
+//FOr ussage if sessions
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+//End of use of sessions
 
 const urlDB = process.env.MONGODB_URI || "mongodb://localhost/ecoactua"
 const app = express();
@@ -13,6 +20,17 @@ const User = require("./models/user");
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//initialize session
+app.use(session({
+    secret: 'foo',
+    store: new MongoStore(options)
+}));
+
+//initialize reqs for passprt
+app.use(passport.initialize())
+app.use(passport.session())
+//End of session initialized
 
 app.get("/api/reportes", (req, res) => {
   Report.find({}, (err, reports) => {
