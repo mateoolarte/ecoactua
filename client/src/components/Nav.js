@@ -42,7 +42,7 @@ export default class Nav extends Component {
 
   render() {
     const currentURL = window.location.pathname;
-    const userSigned = true;
+    const userSigned = false;
     const firstName = "Mateo";
     const lastName = "Olarte";
 
@@ -85,11 +85,11 @@ export default class Nav extends Component {
 
           {!userSigned && (
             <div className="main-nav-mobile__auth text-center">
-              <Link to="/" className="main-nav-mobile__link">
+              <Link to="/ingresar" className="main-nav-mobile__link">
                 Ingresar
               </Link>
               {" / "}
-              <Link to="/" className="main-nav-mobile__link">
+              <Link to="/registrarse" className="main-nav-mobile__link">
                 Registrarse
               </Link>
               <hr className="line-separator" />
@@ -108,7 +108,7 @@ export default class Nav extends Component {
               </Link>
             </li>
             <li className="main-nav-mobile__item">
-              <Link to="/" className="btn btn-primary">
+              <Link to="/reporte" className="btn btn-primary">
                 Crear reporte
               </Link>
             </li>
@@ -155,18 +155,18 @@ export default class Nav extends Component {
 
             {!userSigned && (
               <li className="main-nav__item">
-                <Link to="/" className={classLinkNav}>
+                <Link to="/ingresar" className={classLinkNav}>
                   Ingresar
                 </Link>
                 {" / "}
-                <Link to="/" className={classLinkNav}>
+                <Link to="/registrarse" className={classLinkNav}>
                   Registrarse
                 </Link>
               </li>
             )}
 
             <li className="main-nav__item">
-              <Link to="/" className="btn btn-primary">
+              <Link to="/reporte" className="btn btn-primary">
                 Crear reporte
               </Link>
             </li>

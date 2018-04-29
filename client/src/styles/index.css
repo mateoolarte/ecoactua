@@ -249,3 +249,26 @@ h6 {
   content: "\6f";
 }
 /* Icons end */
+
+/* Report state colors */
+.state-color-Pendiente {
+  color: var(--gray);
+}
+.state-color-Pendiente .caret {
+  border-top-color: var(--gray);
+}
+
+.state-color-Revision {
+  color: var(--cyan);
+}
+.state-color-Revision .caret {
+  border-top-color: var(--cyan);
+}
+
+.state-color-Solucionado {
+  color: var(--green);
+}
+.state-color-Solucionado .caret {
+  border-top-color: var(--green);
+}
+/* Report state colors */

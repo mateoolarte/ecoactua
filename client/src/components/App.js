@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Reports from "./Reports";
+import Report from "./Report";
+import Login from "./Login";
+import Signup from "./Signup";
 
 export default class App extends Component {
   // constructor(props) {
@@ -36,6 +39,9 @@ export default class App extends Component {
           <Header />
           <Route exact path="/" component={HomePage} />
           <Route path="/reportes" component={Reports} />
+          <Route path="/reporte" component={Report} />
+          <Route path="/ingresar" component={Login} />
+          <Route path="/registrarse" component={Signup} />
         </Fragment>
       </Router>
     );

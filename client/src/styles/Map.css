@@ -1,0 +1,35 @@
+#map_create_report {
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 500px;
+  margin: 20px auto;
+}
+
+.generalMap {
+  position: relative !important;
+  height: 600px !important;
+}
+
+.generalMap__window-container {
+  max-width: 300px;
+}
+
+.generalMap__window-title {
+  margin-top: 5px;
+}
+
+.generalMap__window-description {
+  color: var(--black);
+  text-align: justify;
+}
+.generalMap__window-description strong {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  #map_create_report {
+    width: 80%;
+  }
+}
