@@ -56,14 +56,14 @@ export class HomePage extends Component {
     });
   }
 
-  onMapClicked = props => {
+  onMapClicked() {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
         activeMarker: null
       });
     }
-  };
+  }
 
   render() {
     return (
@@ -75,7 +75,7 @@ export class HomePage extends Component {
           <div className="home__hero-container text-center">
             <h1 className="home__hero-description">
               <strong>Ecoactua</strong> busca mantener y conservar nuestros
-              recursos naturales, con nuestra ayuda intentamos 
+              recursos naturales, con nuestra ayuda intentamos
               <strong> solucionar las problemáticas ambientales</strong> que se
               presenten en la ciudad.
             </h1>

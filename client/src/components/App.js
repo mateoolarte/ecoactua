@@ -7,6 +7,7 @@ import Reports from "./Reports";
 import Report from "./Report";
 import Login from "./Login";
 import Signup from "./Signup";
+import Profile from "./Profile";
 
 export default class App extends Component {
   // constructor(props) {
@@ -42,6 +43,7 @@ export default class App extends Component {
           <Route path="/reporte" component={Report} />
           <Route path="/ingresar" component={Login} />
           <Route path="/registrarse" component={Signup} />
+          <Route path="/usuario/:username" component={Profile} />
         </Fragment>
       </Router>
     );

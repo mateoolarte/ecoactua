@@ -1,9 +1,8 @@
-#map_create_report {
-  position: absolute !important;
+.createReportMap {
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  height: 500px;
+  width: 90% !important;
+  height: 500px !important;
   margin: 20px auto;
 }
 
