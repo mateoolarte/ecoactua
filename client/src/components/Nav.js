@@ -38,22 +38,28 @@ export default class Nav extends Component {
 
     caretIcon.classList.toggle("rotate-caret");
     navDropdown.classList.toggle("open-menu-dropdown");
+
+    if (caretIcon.classList.contains("caret--white rotate-caret")) {
+      navDropdown.classList.remove("open-menu-dropdown");
+    }
   }
 
   render() {
     const currentURL = window.location.pathname;
-    const userSigned = false;
+    const userSigned = true;
     const firstName = "Mateo";
     const lastName = "Olarte";
 
     let classLinkNav = "main-nav__link";
     let classBtnMobile = "btn--menu-mobile";
     let classCaretIcon = "caret";
+    let classDropdownProfile = "main-nav__dropdown";
 
     if (currentURL === "/") {
       classLinkNav += " main-nav__link--white";
       classBtnMobile += " btn--menu-mobile--white";
       classCaretIcon += " caret--white";
+      classDropdownProfile += " main-nav__dropdownHome";
     }
 
     return (
@@ -74,7 +80,7 @@ export default class Nav extends Component {
               />
               <h3 className="main-nav-mobile__username">{`${firstName} ${lastName}`}</h3>
               <div className="main-nav--mobile__actions">
-                <Link to="/">Mi perfil</Link>
+                <Link to="/usuario/mateo">Mi perfil</Link>
                 <Link to="/" className="logout-link">
                   Salir
                 </Link>
@@ -140,9 +146,9 @@ export default class Nav extends Component {
                   />
                   <span className={classCaretIcon} />
                 </button>
-                <ul className="main-nav__dropdown">
+                <ul className={classDropdownProfile}>
                   <li className="main-nav__dropdown-item">
-                    <a href="/">Mi perfil</a>
+                    <Link to="/usuario/mateo">Mi perfil</Link>
                   </li>
                   <li className="main-nav__dropdown-item">
                     <Link to="/" className="logout-link">
