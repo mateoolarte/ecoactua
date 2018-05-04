@@ -40,12 +40,12 @@ export default class App extends Component {
         <Fragment>
           <Header />
           <Route exact path="/" component={HomePage} />
-          <Route path="/reportes" component={Reports} />
-          <Route path="/reporte" component={Report} />
-          <Route path="/ingresar" component={Login} />
-          <Route path="/registrarse" component={Signup} />
-          <Route path="/usuario/:username" component={Profile} />
-          <Route path="/administracion" component={Admin} />
+          <Route exact path="/reportes" component={Reports} />
+          <Route exact path="/reporte" component={Report} />
+          <Route exact path="/ingresar" component={Login} />
+          <Route exact path="/registrarse" component={Signup} />
+          <Route exact path="/usuario/:username" component={Profile} />
+          <Route exact path="/administracion" component={Admin} />
         </Fragment>
       </Router>
     );
