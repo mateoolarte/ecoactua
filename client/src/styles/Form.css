@@ -1,0 +1,144 @@
+form label {
+  display: inline-block;
+  color: #6b7373;
+  font-size: 18px;
+  font-weight: bold;
+}
+form label span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #e1e6e6;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+select {
+  height: 40px;
+  background: transparent;
+}
+
+input[type="submit"],
+input[type="checkbox"] {
+  width: auto;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.form__auth {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-report {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
+
+.form-report__types {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-report__types-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  transition: transform 0.37s cubic-bezier(0.6, 0.05, 0.28, 0.91);
+  cursor: pointer;
+}
+
+.form-report__types-icon {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 24px;
+  line-height: 12px;
+}
+
+.form-report__types-icon.vegetación-type {
+  background-color: #66cc83;
+}
+
+.form-report__types-icon.vegetación-type i {
+  color: #0d2614;
+}
+
+.form-report__types-icon.animal-type {
+  background-color: #deb940;
+}
+
+.form-report__types-icon.animal-type i {
+  color: #1a1505;
+}
+
+.form-report__types-icon.superficie-type {
+  background-color: #cb865c;
+}
+
+.form-report__types-icon.superficie-type i {
+  color: #1e110a;
+}
+
+.form-report__types-icon.aire-type {
+  background-color: #66ccc6;
+}
+
+.form-report__types-icon.aire-type i {
+  color: #0d2625;
+}
+
+.form-report__types-icon.agua-type {
+  background-color: #66a9cc;
+}
+
+.form-report__types-icon.agua-type i {
+  color: #0d1e26;
+}
+
+.form-report__types-text {
+  color: #6b7373;
+  font-size: 12px;
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  form label span {
+    display: inline;
+    font-size: 14px;
+  }
+
+  .form-report {
+    padding: 0;
+  }
+
+  .form-report__types {
+    justify-content: space-between;
+  }
+
+  .form-report__types-icon {
+    padding: 12px;
+    font-size: 38px;
+    line-height: 20px;
+  }
+
+  .form-report__types-text {
+    font-size: 16px;
+  }
+}
