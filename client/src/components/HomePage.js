@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import "../styles/HomePage.css";
@@ -22,30 +23,9 @@ export class HomePage extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      reports: [
-        {
-          state: "Solucionado",
-          _id: "5ad82887c6f83f48b9e67446",
-          address: "Calle 44C # 91-54",
-          description: "Hi I'm a first report from Nodejs",
-          pointlat: "6.258718871246735",
-          pointlong: "-75.5584397088623",
-          type: "Animals",
-          __v: 0
-        },
-        {
-          state: "En revisión",
-          _id: "5ad83660c47d4d4edde66b6c",
-          address: "Hola",
-          description: "Mundo",
-          pointlat: "6.245846190991079",
-          pointlong: "-75.59165618530272",
-          type: "wind",
-          __v: 0
-        }
-      ]
-    });
+    axios.get("/api/reportes")
+      .then(response => this.setState({ reports: response.data }))
+      .catch(error => console.log(error));
   }
 
   onMarkerClick(props, marker, e) {
@@ -163,8 +143,7 @@ export class HomePage extends Component {
                 }}
                 onClick={this.onMarkerClick}
                 icon={{
-                  url:
-                    "https://raw.githubusercontent.com/mateoolarte/ecoactua/rails/public/point-map.png"
+                  url: "favicon.ico"
                 }}
               />
             ))}

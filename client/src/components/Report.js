@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
+import axios from "axios";
+import qs from 'qs';
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import "../styles/Form.css";
@@ -9,19 +11,62 @@ export class Report extends Component {
   constructor() {
     super();
 
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAddress = this.handleAddress.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.animationTypeReport = this.animationTypeReport.bind(this);
 
     this.state = {
-      pointLat: 6.249451,
-      pointLng: -75.576035
+      address: "",
+      description: "",
+      pointlat: 6.249451,
+      pointlong: -75.576035,
+      type: ""
     };
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post("/api/reporte", qs.stringify(this.state))
+      .then(response => {
+        console.log(response);
+
+        const classTypeReport = document.querySelectorAll(
+          ".form-report__types-box"
+        );
+        classTypeReport.forEach(elem => elem.classList.remove("scale-up"));
+
+        this.setState({
+          address: "",
+          description: "",
+          pointlat: 6.249451,
+          pointlong: -75.576035,
+          type: ""
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  handleAddress(event) {
+    this.setState({
+      address: event.target.value
+    });
+  }
+
+  handleDescription(event) {
+    this.setState({
+      description: event.target.value
+    });
   }
 
   handleClick(mapProps, map, clickEvent) {
     this.setState({
-      pointLat: clickEvent.latLng.lat(),
-      pointLng: clickEvent.latLng.lng()
+      pointlat: clickEvent.latLng.lat(),
+      pointlong: clickEvent.latLng.lng()
     });
   }
 
@@ -32,8 +77,11 @@ export class Report extends Component {
     let currentTypeReport = event.target.closest(".form-report__types-box");
 
     classTypeReport.forEach(elem => elem.classList.remove("scale-up"));
-
     currentTypeReport.classList.add("scale-up");
+
+    this.setState({
+      type: currentTypeReport.textContent
+    });
   }
 
   render() {
@@ -44,9 +92,22 @@ export class Report extends Component {
         </Helmet>
         <h1 className="heading text-center">Crear reporte</h1>
 
-        <form className="form-report">
-          <input type="text" placeholder="Dirección del reporte" />
-          <textarea placeholder="Descripción del reporte" cols="25" rows="10" />
+        <form className="form-report" onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            placeholder="Dirección del reporte"
+            required
+            onChange={this.handleAddress}
+            value={this.state.address}
+          />
+          <textarea
+            placeholder="Descripción del reporte"
+            cols="25"
+            rows="10"
+            required
+            onChange={this.handleDescription}
+            value={this.state.description}
+          />
           <label className="margin-15-auto">Tipo de reporte</label>
           <div className="form-report__types">
             <span
@@ -109,17 +170,17 @@ export class Report extends Component {
               lng: -75.576035
             }}
             center={{
-              lat: this.state.pointLat,
-              lng: this.state.pointLng
+              lat: this.state.pointlat,
+              lng: this.state.pointlong
             }}
             className="createReportMap"
             onClick={this.handleClick}
           >
             <Marker
-              position={{ lat: this.state.pointLat, lng: this.state.pointLng }}
+              position={{ lat: this.state.pointlat, lng: this.state.pointlong }}
               icon={{
                 url:
-                  "https://raw.githubusercontent.com/mateoolarte/ecoactua/rails/public/point-map.png"
+                  "favicon.ico"
               }}
             />
           </Map>

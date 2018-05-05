@@ -11,29 +11,6 @@ import Profile from "./Profile";
 import Admin from "./Admin";
 
 export default class App extends Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     reports: []
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   this.callApi()
-  //     .then(res => this.setState({ reports: res }))
-  //     .catch(err => console.log(err));
-  // }
-
-  // callApi = async () => {
-  //   const response = await fetch("/api/usuarios");
-  //   const body = await response.json();
-
-  //   if (response.status !== 200) throw Error(body.message);
-
-  //   return body;
-  // };
-
   render() {
     return (
       <Router>

@@ -30,26 +30,25 @@ app.post("/api/reporte", (req, res) => {
   report.description = req.body.description;
   report.pointlat = req.body.pointlat;
   report.pointlong = req.body.pointlong;
-  report.state = req.body.state;
   report.type = req.body.type;
 
   report.save((err, savedReport) => {
     if (err) {
       res.status(500).send({ err: "No pudo guardar el reporte correctamente" });
     } else {
-      User.update(
-        { _id: req.body.userId },
-        { $addToSet: { reports: savedReport._id } },
-        (err, user) => {
-          if (err) {
-            res
-              .status(500)
-              .send({
-                err: "No pudo integrar el usuario al reporte correctamente"
-              });
-          }
-        }
-      );
+      // User.update(
+      //   { _id: req.body.userId },
+      //   { $addToSet: { reports: savedReport._id } },
+      //   (err, user) => {
+      //     if (err) {
+      //       res
+      //         .status(500)
+      //         .send({
+      //           err: "No pudo integrar el usuario al reporte correctamente"
+      //         });
+      //     }
+      //   }
+      // );
 
       res.send(savedReport);
     }

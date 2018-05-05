@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Helmet } from "react-helmet";
 
 import "../styles/Profile.css";
 import defaultImage from "../images/default-photo-profile.png";
@@ -43,6 +44,9 @@ export default class Profile extends Component {
     const { params } = this.props.match;
     return (
       <Fragment>
+        <Helmet>
+          <title>Ecoactua - {params.username}</title>
+        </Helmet>
         <h1 className="heading text-center">Mi perfil</h1>
         <img src={defaultImage} className="profile__img" alt="Foto de perfil" />
 
