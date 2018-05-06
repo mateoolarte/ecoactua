@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 import "../styles/Profile.css";
 import defaultImage from "../images/default-photo-profile.png";
@@ -11,33 +12,35 @@ export default class Profile extends Component {
     this.state = {
       reports: []
     };
+
+    this.removeReport = this.removeReport.bind(this)
   }
 
   componentDidMount() {
-    this.setState({
-      reports: [
-        {
-          state: "Pendiente",
-          _id: "5ad82887c6f83f48b9e67446",
-          address: "Calle 44C # 91-54",
-          description: "Hi I'm a first report from Nodejs",
-          pointlat: "6.258718871246735",
-          pointlong: "-75.5584397088623",
-          type: "Vegetación",
-          __v: 0
-        },
-        {
-          state: "En revisión",
-          _id: "5ad83660c47d4d4edde66b6c",
-          address: "Hola",
-          description: "Mundo",
-          pointlat: "6.245846190991079",
-          pointlong: "-75.59165618530272",
-          type: "Animal",
-          __v: 0
-        }
-      ]
-    });
+    axios
+      .get("/api/reportes")
+      .then(response => this.setState({ reports: response.data }))
+      .catch(error => console.log(error));
+  }
+
+  removeReport(event) {
+    const currentReport = event.target
+      .closest(".table-reports__delete")
+      .getAttribute("id");
+
+    axios
+      .delete(`/api/reporte`, { params: { id: currentReport } })
+      .then(response => {
+        axios
+          .get("/api/reportes")
+          .then(response =>
+            this.setState({
+              reports: response.data
+            })
+          )
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -96,10 +99,14 @@ export default class Profile extends Component {
                 {report.state}
               </span>
               {report.state === "Pendiente" && (
-                <a href="/" className="table-reports__delete">
-                  <i className="icon icon-delete-icon" />
+                <span
+                  className="table-reports__delete"
+                  onClick={this.removeReport}
+                  id={report._id}
+                >
+                  <i className="icon-delete-icon" />
                   Eliminar
-                </a>
+                </span>
               )}
             </article>
           ))}

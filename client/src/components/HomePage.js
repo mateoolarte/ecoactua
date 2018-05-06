@@ -20,6 +20,7 @@ export class HomePage extends Component {
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
+    this.handleRemoveAlert = this.handleRemoveAlert.bind(this);
   }
 
   componentDidMount() {
@@ -45,12 +46,23 @@ export class HomePage extends Component {
     }
   }
 
+  handleRemoveAlert(event) {
+    const alertContainer = event.target.closest(".alert");
+    alertContainer.classList.remove("alert--active");
+  }
+
   render() {
     return (
       <Fragment>
         <Helmet>
           <title>Ecoactua - Inicio</title>
         </Helmet>
+        <div className="alert">
+          <p className="alertText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero at est cupiditate eveniet laudantium mollitia.</p>
+          <button className="alertBtn" onClick={this.handleRemoveAlert}>
+            <i className="icon-delete-icon" />
+          </button>
+        </div>
         <section className="home__hero">
           <div className="home__hero-container text-center">
             <h1 className="home__hero-description">

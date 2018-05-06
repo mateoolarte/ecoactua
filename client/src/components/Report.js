@@ -31,8 +31,6 @@ export class Report extends Component {
     axios
       .post("/api/reporte", qs.stringify(this.state))
       .then(response => {
-        console.log(response);
-
         const classTypeReport = document.querySelectorAll(
           ".form-report__types-box"
         );

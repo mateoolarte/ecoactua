@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import axios from "axios";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import "../styles/Admin.css";
@@ -12,39 +13,22 @@ export class Admin extends Component {
       reportStates: ["Pendiente", "En revisión", "Solucionado"],
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {}
+      selectedPlace: {},
+      notification: ""
     };
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
     this.handleDropdownStates = this.handleDropdownStates.bind(this);
+    this.updateReport = this.updateReport.bind(this);
+    this.removeReport = this.removeReport.bind(this);
   }
 
   componentDidMount() {
-    this.setState({
-      reports: [
-        {
-          state: "Pendiente",
-          _id: "5ad82887c6f83f48b9e67446",
-          address: "Calle 44C # 91-54",
-          description: "Hi I'm a first report from Nodejs",
-          pointlat: "6.258718871246735",
-          pointlong: "-75.5584397088623",
-          type: "Vegetación",
-          __v: 0
-        },
-        {
-          state: "En revisión",
-          _id: "5ad83660c47d4d4edde66b6c",
-          address: "Hola",
-          description: "Mundo",
-          pointlat: "6.245846190991079",
-          pointlong: "-75.59165618530272",
-          type: "Animal",
-          __v: 0
-        }
-      ]
-    });
+    axios
+      .get("/api/reportes")
+      .then(response => this.setState({ reports: response.data }))
+      .catch(error => console.log(error));
   }
 
   onMarkerClick(props, marker, e) {
@@ -55,14 +39,14 @@ export class Admin extends Component {
     });
   }
 
-  onMapClicked = props => {
+  onMapClicked() {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
         activeMarker: null
       });
     }
-  };
+  }
 
   handleDropdownStates(event) {
     const currentElement = event.target.closest(".admin__update-state");
@@ -71,6 +55,56 @@ export class Admin extends Component {
       .classList;
     icon.toggle("rotate-caret");
     dropdown.toggle("admin__update-dropdown-active");
+    this.forceUpdate();
+  }
+
+  updateReport(event) {
+    axios
+      .put("/api/reporte", {
+        id: event.target.closest("li").getAttribute("id"),
+        state: event.target.textContent
+      })
+      .then(response => {
+        let dropdown = document.querySelectorAll(".admin__update-dropdown");
+
+        dropdown.forEach(menu =>
+          menu.classList.remove("admin__update-dropdown-active")
+        );
+
+        axios
+          .get("/api/reportes")
+          .then(response =>
+            this.setState({
+              reports: response.data,
+              showingInfoWindow: false,
+              activeMarker: null
+            })
+          )
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
+  }
+
+  removeReport(event) {
+    const currentReport = event.target
+      .closest(".table-reports__delete")
+      .getAttribute("id");
+
+    axios
+      .delete(`/api/reporte`, { params: { id: currentReport } })
+      .then(response => {
+        axios
+          .get("/api/reportes")
+          .then(response =>
+            this.setState({
+              reports: response.data,
+              showingInfoWindow: false,
+              activeMarker: null
+            })
+          )
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -149,35 +183,37 @@ export class Admin extends Component {
 
                 <ul className="admin__update-dropdown">
                   {this.state.reportStates.map((reportState, i) => (
-                    <li key={i}>
+                    <li key={i} onClick={this.updateReport} id={report._id}>
                       {reportState !== report.state && (
-                        <a href="/">
-                          <span
-                            className={`table-reports__state state-color-${
+                        <span
+                          className={`table-reports__state state-color-${
+                            reportState === "En revisión"
+                              ? "Revision"
+                              : reportState
+                          }`}
+                        >
+                          <i
+                            className={`icon-${
                               reportState === "En revisión"
-                                ? "Revision"
-                                : reportState
-                            }`}
-                          >
-                            <i
-                              className={`icon-${
-                                reportState === "En revisión"
-                                  ? "revision"
-                                  : reportState.toLowerCase()
-                              }-icon`}
-                            />
-                            {reportState}
-                          </span>
-                        </a>
+                                ? "revision"
+                                : reportState.toLowerCase()
+                            }-icon`}
+                          />
+                          {reportState}
+                        </span>
                       )}
                     </li>
                   ))}
                 </ul>
               </div>
-              <a href="/" className="table-reports__delete">
+              <span
+                className="table-reports__delete"
+                onClick={this.removeReport}
+                id={report._id}
+              >
                 <i className="icon icon-delete-icon" />
                 Eliminar
-              </a>
+              </span>
             </article>
           ))}
         </section>
@@ -203,8 +239,7 @@ export class Admin extends Component {
               }}
               onClick={this.onMarkerClick}
               icon={{
-                url:
-                  "https://raw.githubusercontent.com/mateoolarte/ecoactua/rails/public/point-map.png"
+                url: "favicon.ico"
               }}
             />
           ))}

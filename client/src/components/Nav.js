@@ -46,7 +46,7 @@ export default class Nav extends Component {
 
   render() {
     const currentURL = window.location.pathname;
-    const userSigned = true;
+    const userSigned = false;
     const firstName = "Mateo";
     const lastName = "Olarte";
 

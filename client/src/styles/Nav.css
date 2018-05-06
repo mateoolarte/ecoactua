@@ -167,7 +167,7 @@
     overflow: auto;
     transition: all 0.37s var(--easing);
     opacity: 0;
-    z-index: 1;
+    z-index: 3;
   }
 
   .main-nav--mobile.active {

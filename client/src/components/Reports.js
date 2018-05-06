@@ -14,7 +14,8 @@ export class Reports extends Component {
       reports: [],
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {}
+      selectedPlace: {},
+      notification: ""
     };
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
@@ -22,9 +23,21 @@ export class Reports extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/reportes")
+    axios
+      .get("/api/reportes")
       .then(response => this.setState({ reports: response.data }))
       .catch(error => console.log(error));
+
+    if (this.props.location.state !== undefined) {
+      let alert = document.querySelector(".alert");
+      let alertText = document.querySelector(".alertText");
+      const notification = document.createTextNode(
+        this.props.location.state.notification
+      );
+
+      alert.classList.add("alert--active", "alert--success");
+      alertText.appendChild(notification);
+    }
   }
 
   onMarkerClick(props, marker, e) {
@@ -44,12 +57,25 @@ export class Reports extends Component {
     }
   };
 
+  handleRemoveAlert(event) {
+    const alertContainer = event.target.closest(".alert");
+    alertContainer.classList.remove("alert--active");
+  }
+
   render() {
     return (
       <Fragment>
         <Helmet>
           <title>Ecoactua - Todos los reportes</title>
         </Helmet>
+        {this.props.location.state !== undefined && (
+          <div className="alert">
+            <p className="alertText" />
+            <button className="alertBtn" onClick={this.handleRemoveAlert}>
+              <i className="icon-delete-icon" />
+            </button>
+          </div>
+        )}
         <h1 className="heading text-center">Reportes</h1>
         <Map
           google={this.props.google}
@@ -73,8 +99,7 @@ export class Reports extends Component {
               }}
               onClick={this.onMarkerClick}
               icon={{
-                url:
-                  "https://raw.githubusercontent.com/mateoolarte/ecoactua/rails/public/point-map.png"
+                url: "favicon.ico"
               }}
             />
           ))}
@@ -114,7 +139,10 @@ export class Reports extends Component {
           </header>
 
           {this.state.reports.map(report => (
-            <article className="table-reports__item order-in-table" key={report._id}>
+            <article
+              className="table-reports__item order-in-table"
+              key={report._id}
+            >
               <p className="table-reports__text">{report.description}</p>
               <span className="form-report__types-box block-click">
                 <span
