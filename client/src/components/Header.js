@@ -8,10 +8,10 @@ import logo from "../images/logos/logo-black.svg";
 import logoHome from "../images/logos/logo-white.svg";
 
 export default function Header() {
-  const currentURL = window.location.pathname;
+  const currentURL = window.location.hash;
   let currentLogo = logoHome;
 
-  if (currentURL !== "/") {
+  if (currentURL !== "#/") {
     currentLogo = logo;
   }
 

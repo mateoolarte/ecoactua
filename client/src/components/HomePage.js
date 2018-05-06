@@ -74,9 +74,9 @@ export class HomePage extends Component {
             <h2 className="home__hero-clt-title">
               ¿Quieres ser parte del cambio?
             </h2>
-            <a href="#como-funciona" className="btn btn-primary btn-large">
+            <Link to="/" className="btn btn-primary btn-large">
               Conoce como funciona
-            </a>
+            </Link>
           </div>
         </section>
 

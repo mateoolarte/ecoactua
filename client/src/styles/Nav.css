@@ -15,6 +15,14 @@
   font-weight: bold;
 }
 
+.main-nav__link--active {
+  border-color: var(--gray);
+}
+
+.main-nav__link--activeWhite {
+  border-color: var(--white);
+}
+
 .main-nav__link:hover {
   border-color: var(--gray);
 }
@@ -82,7 +90,7 @@
 }
 
 .main-nav-mobile__item {
-  margin: 10px 0;
+  margin: 1rem 0;
 }
 
 .btn--menu-mobile {
@@ -179,7 +187,7 @@
 
 @media (max-width: 1024px) and (min-width: 768px) {
   .main-nav-mobile__item {
-    margin: 20px 0;
+    margin: 1.5rem 0;
     font-size: 22px;
   }
 

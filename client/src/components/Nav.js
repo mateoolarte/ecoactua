@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/Nav.css";
 
 import defaultPhoto from "../images/default-photo-profile.png";
 
 export default class Nav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.closeMobileMenu = this.closeMobileMenu.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +34,7 @@ export default class Nav extends Component {
   }
 
   toggleDropdown(e) {
-    const caretIcon = document.querySelector(".btn--dropdown .caret")
+    const caretIcon = document.querySelector(".btn--dropdown .caret");
     const navDropdown = document.querySelector(".main-nav__dropdown");
 
     caretIcon.classList.toggle("rotate-caret");
@@ -44,24 +45,33 @@ export default class Nav extends Component {
     }
   }
 
+  closeMobileMenu() {
+    const sidebarBox = document.querySelector(".main-nav--mobile"),
+      sidebarBtn = document.querySelector(".btn--menu-mobile");
+
+    sidebarBtn.classList.remove("active");
+    sidebarBox.classList.remove("active");
+  }
+
   render() {
-    const currentURL = window.location.pathname;
+    const currentURL = window.location.hash;
     const userSigned = false;
     const firstName = "Mateo";
     const lastName = "Olarte";
 
     let classLinkNav = "main-nav__link";
+    let classLinkNavActive = "main-nav__link--active";
     let classBtnMobile = "btn--menu-mobile";
     let classCaretIcon = "caret";
     let classDropdownProfile = "main-nav__dropdown";
 
-    if (currentURL === "/") {
+    if (currentURL === "#/") {
       classLinkNav += " main-nav__link--white";
+      classLinkNavActive += " main-nav__link--activeWhite";
       classBtnMobile += " btn--menu-mobile--white";
       classCaretIcon += " caret--white";
       classDropdownProfile += " main-nav__dropdownHome";
     }
-
     return (
       <Fragment>
         <div className={classBtnMobile} onClick={this.toggleMenu}>
@@ -71,7 +81,7 @@ export default class Nav extends Component {
         </div>
 
         <nav className="main-nav">
-          {userSigned && (
+          {userSigned ? (
             <div className="main-nav-mobile__auth user-signed--mobile">
               <img
                 src={defaultPhoto}
@@ -80,59 +90,81 @@ export default class Nav extends Component {
               />
               <h3 className="main-nav-mobile__username">{`${firstName} ${lastName}`}</h3>
               <div className="main-nav--mobile__actions">
-                <Link to="/usuario/mateo">Mi perfil</Link>
-                <Link to="/" className="logout-link">
+                <NavLink to="/usuario/mateo" onClick={this.closeMobileMenu}>
+                  Mi perfil
+                </NavLink>
+                <NavLink to="/" onClick={this.closeMobileMenu} className="logout-link">
                   Salir
-                </Link>
+                </NavLink>
               </div>
               <hr className="line-separator" />
             </div>
-          )}
-
-          {!userSigned && (
+          ) : (
             <div className="main-nav-mobile__auth text-center">
-              <Link to="/ingresar" className="main-nav-mobile__link">
+              <NavLink to="/ingresar" onClick={this.closeMobileMenu} className="main-nav-mobile__link">
                 Ingresar
-              </Link>
+              </NavLink>
               {" / "}
-              <Link to="/registrarse" className="main-nav-mobile__link">
+              <NavLink to="/registrarse" onClick={this.closeMobileMenu} className="main-nav-mobile__link">
                 Registrarse
-              </Link>
+              </NavLink>
               <hr className="line-separator" />
             </div>
           )}
 
           <ul className="main-nav-mobile__list text-center">
             <li className="main-nav-mobile__item">
-              <Link to="/" className="main-nav__link">
+              <NavLink
+                to="/"
+                exact
+                activeClassName={classLinkNavActive}
+                className="main-nav__link"
+                onClick={this.closeMobileMenu}
+              >
                 Inicio
-              </Link>
+              </NavLink>
             </li>
             <li className="main-nav-mobile__item">
-              <Link to="/reportes" className="main-nav__link">
+              <NavLink
+                to="/reportes"
+                exact
+                activeClassName={classLinkNavActive}
+                className="main-nav__link"
+                onClick={this.closeMobileMenu}
+              >
                 Reportes
-              </Link>
+              </NavLink>
             </li>
             <li className="main-nav-mobile__item">
-              <Link to="/reporte" className="btn btn-primary">
+              <NavLink to="/reporte" onClick={this.closeMobileMenu} className="btn btn-primary">
                 Crear reporte
-              </Link>
+              </NavLink>
             </li>
           </ul>
 
           <ul className="main-nav__list">
             <li className="main-nav__item">
-              <Link to="/" className={classLinkNav}>
+              <NavLink
+                to="/"
+                exact
+                activeClassName={classLinkNavActive}
+                className={classLinkNav}
+              >
                 Inicio
-              </Link>
+              </NavLink>
             </li>
             <li className="main-nav__item">
-              <Link to="/reportes" className={classLinkNav}>
+              <NavLink
+                to="/reportes"
+                exact
+                activeClassName={classLinkNavActive}
+                className={classLinkNav}
+              >
                 Reportes
-              </Link>
+              </NavLink>
             </li>
 
-            {userSigned && (
+            {userSigned ? (
               <li className="main-nav__item dropdown-element">
                 <button
                   className="btn--dropdown user-signed"
@@ -148,33 +180,41 @@ export default class Nav extends Component {
                 </button>
                 <ul className={classDropdownProfile}>
                   <li className="main-nav__dropdown-item">
-                    <Link to="/usuario/mateo">Mi perfil</Link>
+                    <NavLink to="/usuario/mateo">Mi perfil</NavLink>
                   </li>
                   <li className="main-nav__dropdown-item">
-                    <Link to="/" className="logout-link">
+                    <NavLink to="/" className="logout-link">
                       Salir
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
-            )}
-
-            {!userSigned && (
+            ) : (
               <li className="main-nav__item">
-                <Link to="/ingresar" className={classLinkNav}>
+                <NavLink
+                  to="/ingresar"
+                  exact
+                  activeClassName={classLinkNavActive}
+                  className={classLinkNav}
+                >
                   Ingresar
-                </Link>
+                </NavLink>
                 {" / "}
-                <Link to="/registrarse" className={classLinkNav}>
+                <NavLink
+                  to="/registrarse"
+                  exact
+                  activeClassName={classLinkNavActive}
+                  className={classLinkNav}
+                >
                   Registrarse
-                </Link>
+                </NavLink>
               </li>
             )}
 
             <li className="main-nav__item">
-              <Link to="/reporte" className="btn btn-primary">
+              <NavLink to="/reporte" className="btn btn-primary">
                 Crear reporte
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
