@@ -18,38 +18,12 @@ export default class Signup extends Component {
       redirectPage: false
     };
 
-    this.handleSignup = this.handleSignup.bind(this);
     this.handleFirstName = this.handleFirstName.bind(this);
     this.handleLastName = this.handleLastName.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
-  }
-
-  handleSignup(event) {
-    event.preventDefault();
-
-    axios
-      .post("/api/signup", qs.stringify(this.state))
-      .then(response => {
-        let alert = document.querySelector(".alert");
-        let alertText = document.querySelector(".alertText");
-        const text = document.createTextNode(response.data.notification);
-
-        alert.classList.add("alert--active", "alert--success");
-        alertText.appendChild(text);
-
-        this.setState({
-          firstName: "",
-          LastName: "",
-          username: "",
-          email: "",
-          password: "",
-          notification: response.data.notification,
-          redirectPage: true
-        });
-      })
-      .catch(error => console.log(error));
+    this.handleSignup = this.handleSignup.bind(this);
   }
 
   handleFirstName(event) {
@@ -82,6 +56,32 @@ export default class Signup extends Component {
     });
   }
 
+  handleSignup(event) {
+    event.preventDefault();
+
+    axios
+      .post("/api/signup", qs.stringify(this.state))
+      .then(response => {
+        let alert = document.querySelector(".alert");
+        let alertText = document.querySelector(".alertText");
+        const text = document.createTextNode(response.data.notification);
+
+        alert.classList.add("alert--active", "alert--success");
+        alertText.appendChild(text);
+
+        this.setState({
+          firstName: "",
+          LastName: "",
+          username: "",
+          email: "",
+          password: "",
+          notification: response.data.notification,
+          redirectPage: true
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
   handleRemoveAlert(event) {
     const alertContainer = event.target.closest(".alert");
     alertContainer.classList.remove("alert--active");
@@ -93,10 +93,14 @@ export default class Signup extends Component {
         <Helmet>
           <title>Ecoactua - Registrarse</title>
         </Helmet>
-        {this.state.redirectPage && <Redirect to={{
-          pathname: "/reportes",
-          state: { notification: this.state.notification }
-        }} />}
+        {this.state.redirectPage && (
+          <Redirect
+            to={{
+              pathname: "/reportes",
+              state: { notification: this.state.notification }
+            }}
+          />
+        )}
         <div className="alert">
           <p className="alertText" />
           <button className="alertBtn" onClick={this.handleRemoveAlert}>

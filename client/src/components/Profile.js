@@ -10,16 +10,29 @@ export default class Profile extends Component {
     super(props);
 
     this.state = {
-      reports: []
+      reports: [],
+      username: "",
+      firstName: "",
+      lastName: ""
     };
 
-    this.removeReport = this.removeReport.bind(this)
+    this.removeReport = this.removeReport.bind(this);
   }
 
   componentDidMount() {
+    const { params } = this.props.match;
     axios
-      .get("/api/reportes")
-      .then(response => this.setState({ reports: response.data }))
+      .get("/api/usuario", { params: { username: params.username } })
+      .then(response => {
+        const data = response.data[0];
+
+        this.setState({
+          reports: data.reports,
+          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName
+        });
+      })
       .catch(error => console.log(error));
   }
 
@@ -55,7 +68,11 @@ export default class Profile extends Component {
 
         <div className="profile__info margin-bottom-50">
           <h3 className="text-center profile__title">{params.username}</h3>
-          <h3 className="text-center profile__title">Mateo Olarte</h3>
+          <h3 className="text-center profile__title">
+            {`${this.state.firstName} ${
+              this.state.lastName === undefined ? "" : this.state.lastName
+            }`}
+          </h3>
         </div>
 
         <section className="table-reports">

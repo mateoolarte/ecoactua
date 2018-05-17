@@ -181,6 +181,12 @@ h6 {
   color: var(--white);
   cursor: pointer;
 }
+
+@media (min-width: 1600px) {
+  .alert--active {
+    right: 200px;
+  }
+}
 /* Alerts end */
 
 /* Buttons */

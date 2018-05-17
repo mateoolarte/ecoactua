@@ -1,22 +1,22 @@
 {
   "name": "server-ecoactua",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "repository": {},
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^2.0.1",
+    "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
     "connect-mongo": "^2.0.1",
     "express": "^4.16.3",
-    "express-session": "^1.15.6",
-    "mongoose": "^5.0.15",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "jsonwebtoken": "^8.2.1",
+    "moment": "^2.22.1",
+    "mongoose": "^5.0.15"
   },
   "scripts": {
-    "server": "nodemon server.js",
-    "start": "node server.js"
+    "server": "nodemon index.js",
+    "start": "node index.js"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"

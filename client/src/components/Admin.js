@@ -10,11 +10,15 @@ export class Admin extends Component {
 
     this.state = {
       reports: [],
+      reportsFiltered: [],
       reportStates: ["Pendiente", "En revisión", "Solucionado"],
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      notification: ""
+      notification: "",
+      descriptionFilter: "",
+      stateFilter: "",
+      typeReportFilter: ""
     };
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
@@ -22,6 +26,10 @@ export class Admin extends Component {
     this.handleDropdownStates = this.handleDropdownStates.bind(this);
     this.updateReport = this.updateReport.bind(this);
     this.removeReport = this.removeReport.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
+    this.handleDescriptionFilter = this.handleDescriptionFilter.bind(this);
+    this.stateFilter = this.stateFilter.bind(this);
+    this.typeReportFilter = this.typeReportFilter.bind(this);
   }
 
   componentDidMount() {
@@ -55,21 +63,27 @@ export class Admin extends Component {
       .classList;
     icon.toggle("rotate-caret");
     dropdown.toggle("admin__update-dropdown-active");
-    this.forceUpdate();
   }
 
   updateReport(event) {
+    const currentElement = event.target.closest(".admin__update-state");
+
     axios
       .put("/api/reporte", {
-        id: event.target.closest("li").getAttribute("id"),
+        id: currentElement
+          .querySelector(".admin__update-dropdown")
+          .getAttribute("id"),
         state: event.target.textContent
       })
       .then(response => {
         let dropdown = document.querySelectorAll(".admin__update-dropdown");
+        let iconCaret = document.querySelectorAll(".caret");
 
         dropdown.forEach(menu =>
           menu.classList.remove("admin__update-dropdown-active")
         );
+
+        iconCaret.forEach(icon => icon.classList.remove("rotate-caret"));
 
         axios
           .get("/api/reportes")
@@ -91,7 +105,7 @@ export class Admin extends Component {
       .getAttribute("id");
 
     axios
-      .delete(`/api/reporte`, { params: { id: currentReport } })
+      .delete("/api/reporte", { params: { id: currentReport } })
       .then(response => {
         axios
           .get("/api/reportes")
@@ -107,30 +121,79 @@ export class Admin extends Component {
       .catch(error => console.log(error));
   }
 
+  handleDescriptionFilter(e) {
+    this.setState({
+      descriptionFilter: e.target.value
+    });
+  }
+
+  stateFilter(e) {
+    this.setState({
+      stateFilter: e.target.value
+    });
+  }
+
+  typeReportFilter(e) {
+    this.setState({
+      typeReportFilter: e.target.value
+    });
+  }
+
+  handleFilter(e) {
+    e.preventDefault();
+
+    this.setState({
+      // reportsFiltered: this.state.reports,
+      reports: this.state.reports.filter(report => {
+        const stateFiltered = report.state === this.state.stateFilter;
+        const typeReportFiltered = report.type === this.state.typeReportFilter;
+        const descriptionFiltered = report.description.includes(
+          this.state.descriptionFilter
+        );
+        
+        if (stateFiltered) {
+          return report;
+        }
+
+        if (typeReportFiltered) {
+          return report;
+        }
+
+        if (descriptionFiltered) {
+          return report;
+        }
+      })
+    });
+  }
+
   render() {
     return (
       <Fragment>
         <h1 className="heading text-center">Administración Reportes</h1>
         <div className="admin__search">
-          <form>
+          <form onSubmit={this.handleFilter}>
             <input
               type="text"
-              name="description"
               placeholder="Buscar descripción del reporte"
+              onChange={this.handleDescriptionFilter}
+              value={this.state.descriptionFilter}
             />
-            <select name="state" id="">
-              <option value="" label="Estado del reporte" />
-              <option value="Pendiente">Pendiente</option>
-              <option value="En revisión">En revisión</option>
-              <option value="Solucionado">Solucionado</option>
-            </select>
-            <select name="state" id="">
-              <option value="" label="Tipo de reporte" />
+            <select
+              value={this.state.typeReportFilter}
+              onChange={this.typeReportFilter}
+            >
+              <option label="Tipo de reporte" />
               <option value="Vegetación">Vegetación</option>
               <option value="Animal">Animal</option>
               <option value="Superficie">Superficie</option>
               <option value="Aire">Aire</option>
               <option value="Agua">Agua</option>
+            </select>
+            <select value={this.state.stateFilter} onChange={this.stateFilter}>
+              <option label="Estado del reporte" />
+              <option value="Pendiente">Pendiente</option>
+              <option value="En revisión">En revisión</option>
+              <option value="Solucionado">Solucionado</option>
             </select>
             <button type="submit">
               <i className="icon icon-search-icon" />
@@ -181,9 +244,9 @@ export class Admin extends Component {
                   {report.state} <span className="caret" />
                 </span>
 
-                <ul className="admin__update-dropdown">
+                <ul className="admin__update-dropdown" id={report._id}>
                   {this.state.reportStates.map((reportState, i) => (
-                    <li key={i} onClick={this.updateReport} id={report._id}>
+                    <li key={i} onClick={this.updateReport}>
                       {reportState !== report.state && (
                         <span
                           className={`table-reports__state state-color-${

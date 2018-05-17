@@ -24,9 +24,19 @@ export class HomePage extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/reportes")
+    axios
+      .get("/api/reportes")
       .then(response => this.setState({ reports: response.data }))
       .catch(error => console.log(error));
+
+    if (this.props.notification !== "") {
+      let alert = document.querySelector(".alert");
+      let alertText = document.querySelector(".alertText");
+      const notification = document.createTextNode(this.props.notification);
+
+      alert.classList.add("alert--active", "alert--success");
+      alertText.appendChild(notification);
+    }
   }
 
   onMarkerClick(props, marker, e) {
@@ -57,12 +67,14 @@ export class HomePage extends Component {
         <Helmet>
           <title>Ecoactua - Inicio</title>
         </Helmet>
-        <div className="alert">
-          <p className="alertText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero at est cupiditate eveniet laudantium mollitia.</p>
-          <button className="alertBtn" onClick={this.handleRemoveAlert}>
-            <i className="icon-delete-icon" />
-          </button>
-        </div>
+        {this.props.notification !== "" && (
+          <div className="alert">
+            <p className="alertText" />
+            <button className="alertBtn" onClick={this.handleRemoveAlert}>
+              <i className="icon-delete-icon" />
+            </button>
+          </div>
+        )}
         <section className="home__hero">
           <div className="home__hero-container text-center">
             <h1 className="home__hero-description">

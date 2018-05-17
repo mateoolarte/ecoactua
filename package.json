@@ -1,7 +1,7 @@
 {
   "name": "ecoactua",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "repository": "git@github.com:mateoolarte/ecoactua.git",
   "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
   "license": "MIT",

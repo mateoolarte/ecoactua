@@ -7,7 +7,7 @@ import "../styles/Header.css";
 import logo from "../images/logos/logo-black.svg";
 import logoHome from "../images/logos/logo-white.svg";
 
-export default function Header() {
+export default function Header(props) {
   const currentURL = window.location.hash;
   let currentLogo = logoHome;
 
@@ -21,7 +21,7 @@ export default function Header() {
         <img src={currentLogo} alt="Logo ecoactua" />
       </Link>
 
-      <Nav />
+      <Nav userSigned={props.userSigned} />
     </header>
   );
 }

@@ -55,7 +55,7 @@ export default class Nav extends Component {
 
   render() {
     const currentURL = window.location.hash;
-    const userSigned = false;
+    const userSigned = this.props.userSigned;
     const firstName = "Mateo";
     const lastName = "Olarte";
 
@@ -93,7 +93,11 @@ export default class Nav extends Component {
                 <NavLink to="/usuario/mateo" onClick={this.closeMobileMenu}>
                   Mi perfil
                 </NavLink>
-                <NavLink to="/" onClick={this.closeMobileMenu} className="logout-link">
+                <NavLink
+                  to="/"
+                  onClick={this.closeMobileMenu}
+                  className="logout-link"
+                >
                   Salir
                 </NavLink>
               </div>
@@ -101,11 +105,19 @@ export default class Nav extends Component {
             </div>
           ) : (
             <div className="main-nav-mobile__auth text-center">
-              <NavLink to="/ingresar" onClick={this.closeMobileMenu} className="main-nav-mobile__link">
+              <NavLink
+                to="/ingresar"
+                onClick={this.closeMobileMenu}
+                className="main-nav-mobile__link"
+              >
                 Ingresar
               </NavLink>
               {" / "}
-              <NavLink to="/registrarse" onClick={this.closeMobileMenu} className="main-nav-mobile__link">
+              <NavLink
+                to="/registrarse"
+                onClick={this.closeMobileMenu}
+                className="main-nav-mobile__link"
+              >
                 Registrarse
               </NavLink>
               <hr className="line-separator" />
@@ -136,7 +148,11 @@ export default class Nav extends Component {
               </NavLink>
             </li>
             <li className="main-nav-mobile__item">
-              <NavLink to="/reporte" onClick={this.closeMobileMenu} className="btn btn-primary">
+              <NavLink
+                to="/reporte"
+                onClick={this.closeMobileMenu}
+                className="btn btn-primary"
+              >
                 Crear reporte
               </NavLink>
             </li>
