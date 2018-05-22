@@ -21,7 +21,13 @@ export default function Header(props) {
         <img src={currentLogo} alt="Logo ecoactua" />
       </Link>
 
-      <Nav userSigned={props.userSigned} />
+      <Nav
+        userSigned={props.userSigned}
+        firstName={props.currentUser.firstName}
+        lastName={props.currentUser.lastName}
+        username={props.currentUser.username}
+        clearSession={props.clearSession}
+      />
     </header>
   );
 }

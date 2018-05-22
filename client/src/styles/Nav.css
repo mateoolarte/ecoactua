@@ -83,6 +83,7 @@
 
 .logout-link {
   color: var(--red);
+  cursor: pointer;
 }
 
 .main-nav-mobile__list {

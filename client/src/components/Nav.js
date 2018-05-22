@@ -54,10 +54,8 @@ export default class Nav extends Component {
   }
 
   render() {
+    const { userSigned, firstName, lastName } = this.props;
     const currentURL = window.location.hash;
-    const userSigned = this.props.userSigned;
-    const firstName = "Mateo";
-    const lastName = "Olarte";
 
     let classLinkNav = "main-nav__link";
     let classLinkNavActive = "main-nav__link--active";
@@ -72,6 +70,7 @@ export default class Nav extends Component {
       classCaretIcon += " caret--white";
       classDropdownProfile += " main-nav__dropdownHome";
     }
+
     return (
       <Fragment>
         <div className={classBtnMobile} onClick={this.toggleMenu}>
@@ -90,16 +89,18 @@ export default class Nav extends Component {
               />
               <h3 className="main-nav-mobile__username">{`${firstName} ${lastName}`}</h3>
               <div className="main-nav--mobile__actions">
-                <NavLink to="/usuario/mateo" onClick={this.closeMobileMenu}>
+                <NavLink
+                  to={`/usuario/${this.props.username}`}
+                  onClick={this.closeMobileMenu}
+                >
                   Mi perfil
                 </NavLink>
-                <NavLink
-                  to="/"
-                  onClick={this.closeMobileMenu}
+                <span
+                  onTouchStart={this.props.clearSession}
                   className="logout-link"
                 >
                   Salir
-                </NavLink>
+                </span>
               </div>
               <hr className="line-separator" />
             </div>
@@ -196,12 +197,17 @@ export default class Nav extends Component {
                 </button>
                 <ul className={classDropdownProfile}>
                   <li className="main-nav__dropdown-item">
-                    <NavLink to="/usuario/mateo">Mi perfil</NavLink>
+                    <NavLink to={`/usuario/${this.props.username}`}>
+                      Mi perfil
+                    </NavLink>
                   </li>
                   <li className="main-nav__dropdown-item">
-                    <NavLink to="/" className="logout-link">
+                    <span
+                      onClick={this.props.clearSession}
+                      className="logout-link"
+                    >
                       Salir
-                    </NavLink>
+                    </span>
                   </li>
                 </ul>
               </li>

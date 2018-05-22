@@ -13,7 +13,7 @@ api.delete("/reporte", reportCtrl.deleteReport);
 api.post("/registrarse", userCtrl.signUp);
 api.post("/ingresar", userCtrl.signIn);
 api.get("/salir", userCtrl.signOut);
-api.get("/usuarios", verifyToken, userCtrl.getUsers);
+api.get("/usuarios", userCtrl.getUsers);
 api.get("/usuario", userCtrl.getUser);
 
 // The "catchall" handler: for any request that doesn't

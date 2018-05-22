@@ -66,6 +66,20 @@ export default class App extends Component {
     };
 
     this.signInUser = this.signInUser.bind(this);
+    this.clearSession = this.clearSession.bind(this);
+  }
+
+  componentDidMount() {
+    const dataLocalStorage = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (dataLocalStorage) {
+      this.setState({
+        userSigned: true,
+        isUserAdmin: dataLocalStorage.role === "admin" ? true : false,
+        currentUser: dataLocalStorage,
+        notification: ""
+      });
+    }
   }
 
   signInUser(email, password) {
@@ -76,6 +90,9 @@ export default class App extends Component {
       })
       .then(response => {
         const data = response.data;
+        delete data.currentUser["password"];
+        localStorage.setItem("tokenUser", data.token);
+        localStorage.setItem("currentUser", JSON.stringify(data.currentUser));
 
         this.setState({
           currentUser: data.currentUser,
@@ -85,41 +102,58 @@ export default class App extends Component {
           redirectPage: true
         });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => {
+        this.setState({
+          notification: err.response.data.notification
+        });
+      });
   }
 
-  handleRemoveAlert(event) {
-    const alertContainer = event.target.closest(".alert");
-    alertContainer.classList.remove("alert--active");
+  clearSession() {
+    localStorage.clear();
+
+    this.setState({
+      userSigned: false,
+      isUserAdmin: false,
+      redirectPage: window.location.hash === "#/" ? false : true
+    });
   }
 
   render() {
-    console.log(this.state.currentUser);
-
     return (
       <Router>
         <Fragment>
-          <Header userSigned={this.state.userSigned} />
+          <Header
+            userSigned={this.state.userSigned}
+            currentUser={this.state.currentUser}
+            clearSession={this.clearSession}
+          />
+
           <RouteWithProps
             exact
             path="/"
             component={HomePage}
             notification={this.state.notification}
           />
+
           <Route path="/reportes" component={Reports} />
+
           <PrivateRoute
             path="/reporte"
             credential={this.state.userSigned}
             component={Report}
           />
+
           <RouteWithProps
             path="/ingresar"
             component={Login}
             dataSignIn={this.signInUser}
             redirectPage={this.state.redirectPage}
           />
+
           <Route path="/registrarse" component={Signup} />
           <Route path="/usuario/:username" component={Profile} />
+
           <PrivateRoute
             path="/administracion"
             credential={this.state.isUserAdmin}
