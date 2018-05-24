@@ -6,9 +6,9 @@ const verifyToken = require("../middlewares/auth");
 const api = express.Router();
 
 api.get("/reportes", reportCtrl.getReports);
-api.post("/reporte", reportCtrl.createReport);
-api.put("/reporte", reportCtrl.updateReport);
-api.delete("/reporte", reportCtrl.deleteReport);
+api.post("/reporte", verifyToken, reportCtrl.createReport);
+api.put("/reporte", verifyToken, reportCtrl.updateReport);
+api.delete("/reporte", verifyToken, reportCtrl.deleteReport);
 
 api.post("/registrarse", userCtrl.signUp);
 api.post("/ingresar", userCtrl.signIn);

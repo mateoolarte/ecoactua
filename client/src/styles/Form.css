@@ -40,6 +40,7 @@ input[type="checkbox"] {
 .form__auth {
   width: 90%;
   max-width: 600px;
+  height: 80vh;
   margin: 0 auto;
 }
 

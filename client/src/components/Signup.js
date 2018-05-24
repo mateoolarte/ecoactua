@@ -101,6 +101,8 @@ export default class Signup extends Component {
             }}
           />
         )}
+
+        {this.props.userSigned && <Redirect to={{ pathname: "/" }} />}
         <div className="alert">
           <p className="alertText" />
           <button className="alertBtn" onClick={this.handleRemoveAlert}>

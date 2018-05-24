@@ -1,0 +1,18 @@
+.footer {
+  padding: 30px 0;
+  background-color: var(--black);
+}
+
+.footer p {
+  margin: 5px 0;
+  color: var(--gray-light);
+  text-align: center;
+}
+
+.footer__develop-by {
+  font-size: 16px;
+}
+
+.footer__develop-by a {
+  color: var(--green);
+}

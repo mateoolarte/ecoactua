@@ -15,7 +15,8 @@ export class HomePage extends Component {
       reports: [],
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {}
+      selectedPlace: {},
+      notification: this.props.notification
     };
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
@@ -29,10 +30,10 @@ export class HomePage extends Component {
       .then(response => this.setState({ reports: response.data }))
       .catch(error => console.log(error));
 
-    if (this.props.notification !== "") {
+    if (this.state.notification !== "") {
       let alert = document.querySelector(".alert");
       let alertText = document.querySelector(".alertText");
-      const notification = document.createTextNode(this.props.notification);
+      const notification = document.createTextNode(this.state.notification);
 
       alert.classList.add("alert--active", "alert--success");
       alertText.appendChild(notification);
@@ -59,6 +60,12 @@ export class HomePage extends Component {
   handleRemoveAlert(event) {
     const alertContainer = event.target.closest(".alert");
     alertContainer.classList.remove("alert--active");
+
+    console.log(alertContainer.remove());
+
+    this.setState({
+      notification: undefined
+    });
   }
 
   render() {
@@ -67,7 +74,7 @@ export class HomePage extends Component {
         <Helmet>
           <title>Ecoactua - Inicio</title>
         </Helmet>
-        {this.props.notification !== "" && (
+        {this.state.notification !== "" && (
           <div className="alert">
             <p className="alertText" />
             <button className="alertBtn" onClick={this.handleRemoveAlert}>

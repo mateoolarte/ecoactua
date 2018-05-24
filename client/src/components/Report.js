@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import qs from 'qs';
+import qs from "qs";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import "../styles/Form.css";
@@ -22,31 +22,9 @@ export class Report extends Component {
       description: "",
       pointlat: 6.249451,
       pointlong: -75.576035,
-      type: ""
+      type: "",
+      userId: JSON.parse(localStorage.getItem("currentUser"))._id
     };
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    axios
-      .post("/api/reporte", qs.stringify(this.state))
-      .then(response => {
-        const classTypeReport = document.querySelectorAll(
-          ".form-report__types-box"
-        );
-        classTypeReport.forEach(elem => elem.classList.remove("scale-up"));
-
-        this.setState({
-          address: "",
-          description: "",
-          pointlat: 6.249451,
-          pointlong: -75.576035,
-          type: ""
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   handleAddress(event) {
@@ -66,6 +44,33 @@ export class Report extends Component {
       pointlat: clickEvent.latLng.lat(),
       pointlong: clickEvent.latLng.lng()
     });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    axios({
+      url: "/api/reporte",
+      method: "post",
+      data: qs.stringify(this.state),
+      headers: { "x-access-token": localStorage.getItem("tokenUser") }
+    })
+      .then(response => {
+        const classTypeReport = document.querySelectorAll(
+          ".form-report__types-box"
+        );
+        classTypeReport.forEach(elem => elem.classList.remove("scale-up"));
+
+        this.setState({
+          address: "",
+          description: "",
+          pointlat: 6.249451,
+          pointlong: -75.576035,
+          type: ""
+        });
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
   }
 
   animationTypeReport(event) {
@@ -177,8 +182,7 @@ export class Report extends Component {
             <Marker
               position={{ lat: this.state.pointlat, lng: this.state.pointlong }}
               icon={{
-                url:
-                  "favicon.ico"
+                url: "favicon.ico"
               }}
             />
           </Map>

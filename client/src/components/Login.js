@@ -9,7 +9,8 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      redirectPage: false
+      redirectPage: false,
+      notification: this.props.location.state
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -18,12 +19,10 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state !== undefined) {
+    if (this.state.notification !== undefined) {
       let alert = document.querySelector(".alert");
       let alertText = document.querySelector(".alertText");
-      const notification = document.createTextNode(
-        this.props.location.state.notification
-      );
+      const notification = document.createTextNode(this.state.notification);
 
       alert.classList.add("alert--active", "alert--danger");
       alertText.appendChild(notification);
@@ -51,6 +50,10 @@ export default class Login extends Component {
   handleRemoveAlert(event) {
     const alertContainer = event.target.closest(".alert");
     alertContainer.classList.remove("alert--active");
+
+    this.setState({
+      notification: undefined
+    });
   }
 
   render() {
@@ -59,7 +62,7 @@ export default class Login extends Component {
         <Helmet>
           <title>Ecoactua - Ingresar</title>
         </Helmet>
-        {this.props.redirectPage && <Redirect to={{ pathname: "/" }} />}
+        {this.props.userSigned && <Redirect to={{ pathname: "/" }} />}
 
         {this.props.location.state !== undefined && (
           <div className="alert">

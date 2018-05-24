@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 
 import Header from "./Header";
+import Footer from "./Footer";
 import HomePage from "./HomePage";
 import Reports from "./Reports";
 import Report from "./Report";
@@ -148,10 +149,15 @@ export default class App extends Component {
             path="/ingresar"
             component={Login}
             dataSignIn={this.signInUser}
-            redirectPage={this.state.redirectPage}
+            userSigned={this.state.userSigned}
           />
 
-          <Route path="/registrarse" component={Signup} />
+          <RouteWithProps
+            path="/registrarse"
+            component={Signup}
+            userSigned={this.state.userSigned}
+          />
+
           <Route path="/usuario/:username" component={Profile} />
 
           <PrivateRoute
@@ -159,6 +165,7 @@ export default class App extends Component {
             credential={this.state.isUserAdmin}
             component={Admin}
           />
+          <Footer />
         </Fragment>
       </Router>
     );

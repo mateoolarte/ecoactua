@@ -1,4 +1,5 @@
 const Report = require("../models/report");
+const User = require("../models/user");
 
 function getReports(req, res) {
   Report.find({}, (err, reports) => {
