@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { HashRouter as Router, Route, Redirect } from "react-router-dom";
-import axios from "axios";
+import { HashRouter as Router, Route } from "react-router-dom";
 
-import Header from "./Header";
-import Footer from "./Footer";
+import PrivateRoute from "./utils/PrivateRoute";
+import RouteWithProps from "./utils/RouteWithProps";
+
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
+
 import HomePage from "./HomePage";
 import Reports from "./Reports";
 import Report from "./Report";
@@ -12,111 +15,66 @@ import Signup from "./Signup";
 import Profile from "./Profile";
 import Admin from "./Admin";
 
-function PrivateRoute({ component: Component, credential, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        credential ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/ingresar",
-              state: {
-                from: props.location,
-                notification: "Debes ingresar o estar registrado para acceder"
-              }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-
-function RouteWithProps({
-  path,
-  exact,
-  strict,
-  component: Component,
-  location,
-  ...rest
-}) {
-  return (
-    <Route
-      path={path}
-      exact={exact}
-      strict={strict}
-      location={location}
-      render={props => <Component {...props} {...rest} />}
-    />
-  );
-}
-
 export default class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       currentUser: {},
-      userSigned: false,
+      isAuth: false,
       isUserAdmin: false,
       notification: "",
       redirectPage: false
     };
 
-    this.signInUser = this.signInUser.bind(this);
-    this.clearSession = this.clearSession.bind(this);
+    this.userIsAuth = this.userIsAuth.bind(this);
+    this.logout = this.logout.bind(this);
+    this.removeAlert = this.removeAlert.bind(this);
   }
 
   componentDidMount() {
-    const dataLocalStorage = JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    if (dataLocalStorage) {
+    if (currentUser) {
       this.setState({
-        userSigned: true,
-        isUserAdmin: dataLocalStorage.role === "admin" ? true : false,
-        currentUser: dataLocalStorage,
+        isAuth: true,
+        isUserAdmin: currentUser.role === "admin" ? true : false,
+        currentUser: currentUser,
         notification: ""
       });
     }
   }
 
-  signInUser(email, password) {
-    axios
-      .post("/api/ingresar", {
-        email: email,
-        password: password
-      })
-      .then(response => {
-        const data = response.data;
-        delete data.currentUser["password"];
-        localStorage.setItem("tokenUser", data.token);
-        localStorage.setItem("currentUser", JSON.stringify(data.currentUser));
+  userIsAuth(currentUser, token, notification) {
+    delete currentUser["password"];
+    localStorage.setItem("tokenUser", token);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-        this.setState({
-          currentUser: data.currentUser,
-          userSigned: true,
-          isUserAdmin: data.currentUser.role === "admin" ? true : false,
-          notification: data.notification,
-          redirectPage: true
-        });
-      })
-      .catch(err => {
-        this.setState({
-          notification: err.response.data.notification
-        });
-      });
+    this.setState({
+      currentUser: currentUser,
+      isAuth: true,
+      isUserAdmin: currentUser.role === "admin" ? true : false,
+      notification: notification,
+      redirectPage: true
+    });
   }
 
-  clearSession() {
+  logout() {
     localStorage.clear();
 
     this.setState({
-      userSigned: false,
+      isAuth: false,
       isUserAdmin: false,
       redirectPage: window.location.hash === "#/" ? false : true
+    });
+  }
+
+  removeAlert(event) {
+    const alertContainer = event.target.closest(".alert");
+    alertContainer.classList.remove("alert--active");
+
+    this.setState({
+      notification: ""
     });
   }
 
@@ -125,9 +83,22 @@ export default class App extends Component {
       <Router>
         <Fragment>
           <Header
-            userSigned={this.state.userSigned}
+            userSigned={this.state.isAuth}
             currentUser={this.state.currentUser}
-            clearSession={this.clearSession}
+            logout={this.logout}
+          />
+
+          <RouteWithProps
+            path="/ingresar"
+            component={Login}
+            getDataLogin={this.userIsAuth}
+            userSigned={this.state.isAuth}
+          />
+
+          <RouteWithProps
+            path="/registrarse"
+            component={Signup}
+            userSigned={this.state.isAuth}
           />
 
           <RouteWithProps
@@ -135,27 +106,15 @@ export default class App extends Component {
             path="/"
             component={HomePage}
             notification={this.state.notification}
+            closeAlert={this.removeAlert}
           />
 
           <Route path="/reportes" component={Reports} />
 
           <PrivateRoute
             path="/reporte"
-            credential={this.state.userSigned}
+            credential={this.state.isAuth}
             component={Report}
-          />
-
-          <RouteWithProps
-            path="/ingresar"
-            component={Login}
-            dataSignIn={this.signInUser}
-            userSigned={this.state.userSigned}
-          />
-
-          <RouteWithProps
-            path="/registrarse"
-            component={Signup}
-            userSigned={this.state.userSigned}
           />
 
           <Route path="/usuario/:username" component={Profile} />

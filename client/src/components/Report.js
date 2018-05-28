@@ -8,8 +8,8 @@ import "../styles/Form.css";
 import "../styles/Report.css";
 
 export class Report extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAddress = this.handleAddress.bind(this);

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import "../styles/Nav.css";
+import "../../styles/Nav.css";
 
-import defaultPhoto from "../images/default-photo-profile.png";
+import defaultPhoto from "../../images/default-photo-profile.png";
 
 export default class Nav extends Component {
   constructor(props) {
@@ -203,7 +203,7 @@ export default class Nav extends Component {
                   </li>
                   <li className="main-nav__dropdown-item">
                     <span
-                      onClick={this.props.clearSession}
+                      onClick={this.props.logout}
                       className="logout-link"
                     >
                       Salir

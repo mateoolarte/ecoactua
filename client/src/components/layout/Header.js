@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 import Nav from "./Nav";
 
-import "../styles/Header.css";
-import logo from "../images/logos/logo-black.svg";
-import logoHome from "../images/logos/logo-white.svg";
+import "../../styles/Header.css";
+import logo from "../../images/logos/logo-black.svg";
+import logoHome from "../../images/logos/logo-white.svg";
 
 export default function Header(props) {
   const currentURL = window.location.hash;
@@ -26,7 +26,7 @@ export default function Header(props) {
         firstName={props.currentUser.firstName}
         lastName={props.currentUser.lastName}
         username={props.currentUser.username}
-        clearSession={props.clearSession}
+        logout={props.logout}
       />
     </header>
   );

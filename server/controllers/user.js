@@ -70,17 +70,13 @@ function signIn(req, res) {
 
     if (!passwordIsValid)
       return res.status(401).send({
-        token: null,
         notification: "La contraseña es incorrecta."
       });
 
-    const token = jwt.sign(
-      { id: user._id },
-      config.SECRET_TOKEN,
-      {
-        expiresIn: 86400 // expires in 24 hours
-      }
-    );
+    const token = jwt.sign({ id: user._id }, config.SECRET_TOKEN, {
+      expiresIn: 86400 // expires in 24 hours
+    });
+
     res.status(200).send({
       token: token,
       currentUser: user,
@@ -91,7 +87,6 @@ function signIn(req, res) {
 
 function signOut(req, res) {
   res.status(200).send({
-    auth: false,
     token: null,
     notification: "Haz cerrado sesión correctamente"
   });

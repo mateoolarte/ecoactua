@@ -21,14 +21,13 @@ export class HomePage extends Component {
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
-    this.handleRemoveAlert = this.handleRemoveAlert.bind(this);
   }
 
   componentDidMount() {
     axios
       .get("/api/reportes")
       .then(response => this.setState({ reports: response.data }))
-      .catch(error => console.log(error));
+      .catch(error => console.log(error.response.data));
 
     if (this.state.notification !== "") {
       let alert = document.querySelector(".alert");
@@ -57,17 +56,6 @@ export class HomePage extends Component {
     }
   }
 
-  handleRemoveAlert(event) {
-    const alertContainer = event.target.closest(".alert");
-    alertContainer.classList.remove("alert--active");
-
-    console.log(alertContainer.remove());
-
-    this.setState({
-      notification: undefined
-    });
-  }
-
   render() {
     return (
       <Fragment>
@@ -77,7 +65,7 @@ export class HomePage extends Component {
         {this.state.notification !== "" && (
           <div className="alert">
             <p className="alertText" />
-            <button className="alertBtn" onClick={this.handleRemoveAlert}>
+            <button className="alertBtn" onClick={this.props.closeAlert}>
               <i className="icon-delete-icon" />
             </button>
           </div>
