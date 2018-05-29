@@ -45,7 +45,7 @@ export default class App extends Component {
     }
   }
 
-  userIsAuth(currentUser, token, notification) {
+  userIsAuth(currentUser, token, notification = "") {
     delete currentUser["password"];
     localStorage.setItem("tokenUser", token);
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
@@ -91,13 +91,14 @@ export default class App extends Component {
           <RouteWithProps
             path="/ingresar"
             component={Login}
-            getDataLogin={this.userIsAuth}
+            getDataUser={this.userIsAuth}
             userSigned={this.state.isAuth}
           />
 
           <RouteWithProps
             path="/registrarse"
             component={Signup}
+            getDataUser={this.userIsAuth}
             userSigned={this.state.isAuth}
           />
 

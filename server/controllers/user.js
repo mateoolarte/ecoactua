@@ -7,11 +7,11 @@ function signUp(req, res) {
   const user = new User();
 
   User.findOne({ username: req.body.username }, (err, usernameRegistered) => {
-    if (err) return "An error ocurred";
+    if (err) return "Ha ocurrido un error buscando el nombre de usuario.";
 
     if (usernameRegistered === null) {
       User.findOne({ email: req.body.email }, (err, emailRegistered) => {
-        if (err) return "An error ocurred";
+        if (err) return "Ha ocurrido un error buscando el correo electrónico";
 
         if (emailRegistered === null) {
           const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -26,7 +26,7 @@ function signUp(req, res) {
             if (err) {
               return res
                 .status(500)
-                .send({ message: `Error al crear un usuario: ${err}` });
+                .send({ message: `Error al crear un usuario: ${err}.` });
             }
 
             const token = jwt.sign(
@@ -38,21 +38,21 @@ function signUp(req, res) {
             );
 
             res.status(200).send({
-              auth: true,
               token: token,
+              currentUser: user,
               notification: "Se ha creado el usuario correctamente."
             });
           });
         } else {
           return res
             .status(409)
-            .send({ notification: "email is already in use" });
+            .send({ notification: "Correo electrónico en uso." });
         }
       });
     } else {
       return res
         .status(409)
-        .send({ notification: "username is already in use" });
+        .send({ notification: "Nombre de usuario en uso." });
     }
   });
 }
@@ -61,7 +61,7 @@ function signIn(req, res) {
   User.findOne({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ notification: err });
     if (!user)
-      return res.status(404).send({ notification: "No existe el usuario" });
+      return res.status(404).send({ notification: "No existe el usuario." });
 
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
@@ -80,7 +80,7 @@ function signIn(req, res) {
     res.status(200).send({
       token: token,
       currentUser: user,
-      notification: "Has ingresado correctamente"
+      notification: "Has ingresado correctamente."
     });
   });
 }
@@ -88,7 +88,7 @@ function signIn(req, res) {
 function signOut(req, res) {
   res.status(200).send({
     token: null,
-    notification: "Haz cerrado sesión correctamente"
+    notification: "Haz cerrado sesión correctamente."
   });
 }
 
@@ -99,7 +99,7 @@ function getUsers(req, res) {
       if (err) {
         return res
           .status(500)
-          .send({ notification: "No se pueden mostrar los usuarios" });
+          .send({ notification: "No se pueden mostrar los usuarios." });
       }
       return res.status(200).send(user);
     });
@@ -112,7 +112,7 @@ function getUser(req, res) {
       if (err) {
         res
           .status(500)
-          .send({ notification: "Hubo un problema al encontrar el usuario" });
+          .send({ notification: "Hubo un problema al encontrar el usuario." });
       } else {
         res.send(user);
       }

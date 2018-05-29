@@ -30,13 +30,14 @@ export default class Login extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate() {
     if (this.state.notification !== undefined) {
       let alert = document.querySelector(".alert");
       let alertText = document.querySelector(".alertText");
       const notification = document.createTextNode(this.state.notification);
 
       alert.classList.add("alert--active", "alert--danger");
+      alertText.innerHTML = "";
       alertText.appendChild(notification);
     }
   }
@@ -52,7 +53,7 @@ export default class Login extends Component {
       .then(response => {
         const { currentUser, token, notification } = response.data;
 
-        this.props.getDataLogin(currentUser, token, notification);
+        this.props.getDataUser(currentUser, token, notification);
       })
       .catch(err => {
         this.setState({
@@ -88,8 +89,6 @@ export default class Login extends Component {
   }
 
   render() {
-    console.log(this.state.notification);
-
     return (
       <Fragment>
         <Helmet>

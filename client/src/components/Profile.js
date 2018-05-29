@@ -58,6 +58,9 @@ export default class Profile extends Component {
 
   render() {
     const { params } = this.props.match;
+
+    console.log(this.props);
+
     return (
       <Fragment>
         <Helmet>
@@ -75,7 +78,7 @@ export default class Profile extends Component {
           </h3>
         </div>
 
-        <section className="table-reports">
+        <section className="table-reports min-height-40">
           <header className="order-in-table order-in-table--alt">
             <h4 className="table-reports__title">Reportes</h4>
             <h4 className="table-reports__title text-center">
