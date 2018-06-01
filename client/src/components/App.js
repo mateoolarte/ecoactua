@@ -84,6 +84,7 @@ export default class App extends Component {
         <Fragment>
           <Header
             userSigned={this.state.isAuth}
+            userAdmin={this.state.isUserAdmin}
             currentUser={this.state.currentUser}
             logout={this.logout}
           />
@@ -118,7 +119,12 @@ export default class App extends Component {
             component={Report}
           />
 
-          <Route path="/usuario/:username" component={Profile} />
+          <RouteWithProps
+            exact
+            path="/usuario/:username"
+            component={Profile}
+            userSigned={this.state.isAuth}
+          />
 
           <PrivateRoute
             path="/administracion"

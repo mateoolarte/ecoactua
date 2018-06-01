@@ -23,6 +23,7 @@ export default function Header(props) {
 
       <Nav
         userSigned={props.userSigned}
+        userAdmin={props.userAdmin}
         firstName={props.currentUser.firstName}
         lastName={props.currentUser.lastName}
         username={props.currentUser.username}

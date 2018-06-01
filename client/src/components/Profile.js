@@ -13,7 +13,8 @@ export default class Profile extends Component {
       reports: [],
       username: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      userRole: ""
     };
 
     this.removeReport = this.removeReport.bind(this);
@@ -118,16 +119,17 @@ export default class Profile extends Component {
                 />
                 {report.state}
               </span>
-              {report.state === "Pendiente" && (
-                <span
-                  className="table-reports__delete"
-                  onClick={this.removeReport}
-                  id={report._id}
-                >
-                  <i className="icon-delete-icon" />
-                  Eliminar
-                </span>
-              )}
+              {report.state === "Pendiente" &&
+                this.props.userSigned && (
+                  <span
+                    className="table-reports__delete"
+                    onClick={this.removeReport}
+                    id={report._id}
+                  >
+                    <i className="icon-delete-icon" />
+                    Eliminar
+                  </span>
+                )}
             </article>
           ))}
         </section>

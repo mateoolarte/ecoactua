@@ -10,15 +10,14 @@ export class Admin extends Component {
 
     this.state = {
       reports: [],
-      reportsFiltered: [],
       reportStates: ["Pendiente", "En revisión", "Solucionado"],
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      notification: "",
-      descriptionFilter: "",
+      addressFilter: "",
+      typeReportFilter: "",
       stateFilter: "",
-      typeReportFilter: ""
+      notification: ""
     };
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
@@ -26,10 +25,12 @@ export class Admin extends Component {
     this.handleDropdownStates = this.handleDropdownStates.bind(this);
     this.updateReport = this.updateReport.bind(this);
     this.removeReport = this.removeReport.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
-    this.handleDescriptionFilter = this.handleDescriptionFilter.bind(this);
+    this.getAddressFilter = this.getAddressFilter.bind(this);
     this.stateFilter = this.stateFilter.bind(this);
+    this.filterByAddress = this.filterByAddress.bind(this);
     this.typeReportFilter = this.typeReportFilter.bind(this);
+    this.filterByTypeReport = this.filterByTypeReport.bind(this);
+    this.filterByState = this.filterByState.bind(this);
   }
 
   componentDidMount() {
@@ -68,13 +69,17 @@ export class Admin extends Component {
   updateReport(event) {
     const currentElement = event.target.closest(".admin__update-state");
 
-    axios
-      .put("/api/reporte", {
+    axios({
+      url: "/api/reporte",
+      method: "put",
+      data: {
         id: currentElement
           .querySelector(".admin__update-dropdown")
           .getAttribute("id"),
         state: event.target.textContent
-      })
+      },
+      headers: { "x-access-token": localStorage.getItem("tokenUser") }
+    })
       .then(response => {
         let dropdown = document.querySelectorAll(".admin__update-dropdown");
         let iconCaret = document.querySelectorAll(".caret");
@@ -99,13 +104,17 @@ export class Admin extends Component {
       .catch(error => console.log(error));
   }
 
-  removeReport(event) {
-    const currentReport = event.target
+  removeReport(e) {
+    const currentReport = e.target
       .closest(".table-reports__delete")
       .getAttribute("id");
 
-    axios
-      .delete("/api/reporte", { params: { id: currentReport } })
+    axios({
+      url: "/api/reporte",
+      method: "delete",
+      params: { id: currentReport },
+      headers: { "x-access-token": localStorage.getItem("tokenUser") }
+    })
       .then(response => {
         axios
           .get("/api/reportes")
@@ -121,9 +130,9 @@ export class Admin extends Component {
       .catch(error => console.log(error));
   }
 
-  handleDescriptionFilter(e) {
+  getAddressFilter(e) {
     this.setState({
-      descriptionFilter: e.target.value
+      addressFilter: e.target.value
     });
   }
 
@@ -139,31 +148,16 @@ export class Admin extends Component {
     });
   }
 
-  handleFilter(e) {
-    e.preventDefault();
+  filterByAddress(report) {
+    return report.address.includes(this.state.addressFilter);
+  }
 
-    this.setState({
-      // reportsFiltered: this.state.reports,
-      reports: this.state.reports.filter(report => {
-        const stateFiltered = report.state === this.state.stateFilter;
-        const typeReportFiltered = report.type === this.state.typeReportFilter;
-        const descriptionFiltered = report.description.includes(
-          this.state.descriptionFilter
-        );
-        
-        if (stateFiltered) {
-          return report;
-        }
+  filterByTypeReport(report) {
+    return report.type.includes(this.state.typeReportFilter);
+  }
 
-        if (typeReportFiltered) {
-          return report;
-        }
-
-        if (descriptionFiltered) {
-          return report;
-        }
-      })
-    });
+  filterByState(report) {
+    return report.state.includes(this.state.stateFilter);
   }
 
   render() {
@@ -171,12 +165,12 @@ export class Admin extends Component {
       <Fragment>
         <h1 className="heading text-center">Administración Reportes</h1>
         <div className="admin__search">
-          <form onSubmit={this.handleFilter}>
+          <form>
             <input
               type="text"
-              placeholder="Buscar descripción del reporte"
-              onChange={this.handleDescriptionFilter}
-              value={this.state.descriptionFilter}
+              placeholder="Buscar por dirección del reporte"
+              onChange={this.getAddressFilter}
+              value={this.state.addressFilter}
             />
             <select
               value={this.state.typeReportFilter}
@@ -195,9 +189,6 @@ export class Admin extends Component {
               <option value="En revisión">En revisión</option>
               <option value="Solucionado">Solucionado</option>
             </select>
-            <button type="submit">
-              <i className="icon icon-search-icon" />
-            </button>
           </form>
         </div>
 
@@ -211,74 +202,78 @@ export class Admin extends Component {
             <h4 className="table-reports__title text-center">Eliminar</h4>
           </header>
 
-          {this.state.reports.map(report => (
-            <article
-              className="table-reports__item order-in-table order-in-table--alt"
-              key={report._id}
-            >
-              <p className="table-reports__text">{report.description}</p>
-
-              <span className="form-report__types-box block-click">
-                <span
-                  className={`form-report__types-icon ${report.type.toLowerCase()}-type`}
-                >
-                  <i className={`icon-${report.type.toLowerCase()}-icon`} />
-                </span>
-                <em className="form-report__types-text">{report.type}</em>
-              </span>
-
-              <div className="admin__update-state">
-                <span
-                  className={`table-reports__state state-color-${
-                    report.state === "En revisión" ? "Revision" : report.state
-                  }`}
-                  onClick={this.handleDropdownStates}
-                >
-                  <i
-                    className={`icon-${
-                      report.state === "En revisión"
-                        ? "revision"
-                        : report.state.toLowerCase()
-                    }-icon`}
-                  />
-                  {report.state} <span className="caret" />
-                </span>
-
-                <ul className="admin__update-dropdown" id={report._id}>
-                  {this.state.reportStates.map((reportState, i) => (
-                    <li key={i} onClick={this.updateReport}>
-                      {reportState !== report.state && (
-                        <span
-                          className={`table-reports__state state-color-${
-                            reportState === "En revisión"
-                              ? "Revision"
-                              : reportState
-                          }`}
-                        >
-                          <i
-                            className={`icon-${
-                              reportState === "En revisión"
-                                ? "revision"
-                                : reportState.toLowerCase()
-                            }-icon`}
-                          />
-                          {reportState}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <span
-                className="table-reports__delete"
-                onClick={this.removeReport}
-                id={report._id}
+          {this.state.reports
+            .filter(this.filterByAddress)
+            .filter(this.filterByTypeReport)
+            .filter(this.filterByState)
+            .map(report => (
+              <article
+                className="table-reports__item order-in-table order-in-table--alt"
+                key={report._id}
               >
-                <i className="icon icon-delete-icon" />
-                Eliminar
-              </span>
-            </article>
-          ))}
+                <p className="table-reports__text">{report.description}</p>
+
+                <span className="form-report__types-box block-click">
+                  <span
+                    className={`form-report__types-icon ${report.type.toLowerCase()}-type`}
+                  >
+                    <i className={`icon-${report.type.toLowerCase()}-icon`} />
+                  </span>
+                  <em className="form-report__types-text">{report.type}</em>
+                </span>
+
+                <div className="admin__update-state">
+                  <span
+                    className={`table-reports__state state-color-${
+                      report.state === "En revisión" ? "Revision" : report.state
+                    }`}
+                    onClick={this.handleDropdownStates}
+                  >
+                    <i
+                      className={`icon-${
+                        report.state === "En revisión"
+                          ? "revision"
+                          : report.state.toLowerCase()
+                      }-icon`}
+                    />
+                    {report.state} <span className="caret" />
+                  </span>
+
+                  <ul className="admin__update-dropdown" id={report._id}>
+                    {this.state.reportStates.map((reportState, i) => (
+                      <li key={i} onClick={this.updateReport}>
+                        {reportState !== report.state && (
+                          <span
+                            className={`table-reports__state state-color-${
+                              reportState === "En revisión"
+                                ? "Revision"
+                                : reportState
+                            }`}
+                          >
+                            <i
+                              className={`icon-${
+                                reportState === "En revisión"
+                                  ? "revision"
+                                  : reportState.toLowerCase()
+                              }-icon`}
+                            />
+                            {reportState}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <span
+                  className="table-reports__delete"
+                  onClick={this.removeReport}
+                  id={report._id}
+                >
+                  <i className="icon icon-delete-icon" />
+                  Eliminar
+                </span>
+              </article>
+            ))}
         </section>
         <Map
           google={this.props.google}

@@ -7,7 +7,8 @@ const report = new Schema({
   pointlat: String,
   pointlong: String,
   state: { type: String, default: "Pendiente" },
-  type: String
+  type: String,
+  dateCreation: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("Report", report);

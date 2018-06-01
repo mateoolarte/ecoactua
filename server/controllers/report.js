@@ -10,7 +10,7 @@ function getReports(req, res) {
     } else {
       return res.send(reports);
     }
-  });
+  }).sort({ dateCreation: "desc" });
 }
 
 function createReport(req, res) {

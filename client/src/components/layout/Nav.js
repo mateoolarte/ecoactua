@@ -150,11 +150,11 @@ export default class Nav extends Component {
             </li>
             <li className="main-nav-mobile__item">
               <NavLink
-                to="/reporte"
+                to={this.props.userAdmin ? "/administracion" : "/reporte"}
                 onClick={this.closeMobileMenu}
                 className="btn btn-primary"
               >
-                Crear reporte
+                {this.props.userAdmin ? "Administración" : "Crear reporte"}
               </NavLink>
             </li>
           </ul>
@@ -202,10 +202,7 @@ export default class Nav extends Component {
                     </NavLink>
                   </li>
                   <li className="main-nav__dropdown-item">
-                    <span
-                      onClick={this.props.logout}
-                      className="logout-link"
-                    >
+                    <span onClick={this.props.logout} className="logout-link">
                       Salir
                     </span>
                   </li>
@@ -234,8 +231,11 @@ export default class Nav extends Component {
             )}
 
             <li className="main-nav__item">
-              <NavLink to="/reporte" className="btn btn-primary">
-                Crear reporte
+              <NavLink
+                to={this.props.userAdmin ? "/administracion" : "/reporte"}
+                className="btn btn-primary"
+              >
+                {this.props.userAdmin ? "Administración" : "Crear reporte"}
               </NavLink>
             </li>
           </ul>
