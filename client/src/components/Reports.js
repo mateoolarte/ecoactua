@@ -32,7 +32,7 @@ export class Reports extends Component {
       let alert = document.querySelector(".alert");
       let alertText = document.querySelector(".alertText");
       const notification = document.createTextNode(
-        this.props.location.state.notification
+        this.props.location.state
       );
 
       alert.classList.add("alert--active", "alert--success");
@@ -48,7 +48,7 @@ export class Reports extends Component {
     });
   }
 
-  onMapClicked = props => {
+  onMapClicked() {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -57,8 +57,8 @@ export class Reports extends Component {
     }
   };
 
-  handleRemoveAlert(event) {
-    const alertContainer = event.target.closest(".alert");
+  removeAlert(e) {
+    const alertContainer = e.target.closest(".alert");
     alertContainer.classList.remove("alert--active");
   }
 
@@ -71,7 +71,7 @@ export class Reports extends Component {
         {this.props.location.state !== undefined && (
           <div className="alert">
             <p className="alertText" />
-            <button className="alertBtn" onClick={this.handleRemoveAlert}>
+            <button className="alertBtn" onClick={this.removeAlert}>
               <i className="icon-delete-icon" />
             </button>
           </div>

@@ -4,7 +4,9 @@ const User = require("../models/user");
 function getReports(req, res) {
   Report.find({}, (err, reports) => {
     if (err) {
-      return res.status(500).send({ err: "We have errors with the reports" });
+      return res
+        .status(500)
+        .send({ notification: "Tenemos problemas para mostrar los reportes." });
     } else {
       return res.send(reports);
     }
@@ -21,7 +23,9 @@ function createReport(req, res) {
 
   report.save((err, savedReport) => {
     if (err) {
-      return res.status(500).send({ err: "No pudo guardar el reporte correctamente" });
+      return res
+        .status(500)
+        .send({ notification: "No pudo guardar el reporte correctamente." });
     } else {
       User.update(
         {
@@ -35,7 +39,8 @@ function createReport(req, res) {
         (err, user) => {
           if (err) {
             return res.status(500).send({
-              err: "No se pudo integrar el usuario al reporte correctamente"
+              notification:
+                "No se pudo integrar el usuario al reporte correctamente."
             });
           }
         }
@@ -71,7 +76,9 @@ function updateReport(req, res) {
 function deleteReport(req, res) {
   Report.findById(req.query.id, (err, report) => {
     if (err)
-    return res.status(500).send({ message: `Error al eliminar el reporte ${err}` });
+      return res
+        .status(500)
+        .send({ message: `Error al eliminar el reporte ${err}` });
 
     report.remove(err => {
       if (err) {

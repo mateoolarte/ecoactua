@@ -23,6 +23,7 @@ export default class Signup extends Component {
     this.getUsername = this.getUsername.bind(this);
     this.getEmail = this.getEmail.bind(this);
     this.getPassword = this.getPassword.bind(this);
+    this.removeAlert = this.removeAlert.bind(this);
   }
 
   componentDidUpdate() {
@@ -112,6 +113,10 @@ export default class Signup extends Component {
   removeAlert(e) {
     const alertContainer = e.target.closest(".alert");
     alertContainer.classList.remove("alert--active");
+
+    this.setState({
+      notification: ""
+    });
   }
 
   render() {
