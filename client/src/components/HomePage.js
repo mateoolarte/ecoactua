@@ -21,6 +21,7 @@ export class HomePage extends Component {
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
+    this.changeSectionAnimation = this.changeSectionAnimation.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +57,15 @@ export class HomePage extends Component {
     }
   }
 
+  changeSectionAnimation() {
+    const heroSection = document.querySelector(".home__hero").offsetHeight;
+
+    window.scroll({
+      top: heroSection,
+      behavior: "smooth"
+    });
+  }
+
   render() {
     return (
       <Fragment>
@@ -81,13 +91,16 @@ export class HomePage extends Component {
             <h2 className="home__hero-clt-title">
               ¿Quieres ser parte del cambio?
             </h2>
-            <Link to="/" className="btn btn-primary btn-large">
+            <span
+              className="btn btn-primary btn-large"
+              onClick={this.changeSectionAnimation}
+            >
               Conoce como funciona
-            </Link>
+            </span>
           </div>
         </section>
 
-        <section id="como-funciona" className="home__how-works">
+        <section className="home__how-works">
           <p className="home__how-works-description text-center">
             Contamos con el apoyo de las autoridades capacitadas para resolver
             cualquier inconveniente
