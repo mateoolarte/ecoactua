@@ -5,7 +5,7 @@
   "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^3.6.1"
+    "concurrently": "^5.1.0"
   },
   "scripts": {
     "install": "(cd client && yarn) && (cd server && yarn)",
