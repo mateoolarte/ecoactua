@@ -1,99 +1,105 @@
-const Report = require("../models/report");
-const User = require("../models/user");
+const user = require("../models/user");
 
-function getReports(req, res) {
-  Report.find({}, (err, reports) => {
-    if (err) {
-      return res
-        .status(500)
-        .send({ notification: "Tenemos problemas para mostrar los reportes." });
-    } else {
-      return res.send(reports);
-    }
-  }).sort({ dateCreation: "desc" });
+const { models } = require("../config").db;
+
+async function getReports(req, res) {
+  await models.report.sync();
+
+  try {
+    const reports = await models.report.findAll({
+      order: [["dateCreation", "DESC"]],
+    });
+
+    return res.send(reports);
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ notification: "Tenemos problemas para mostrar los reportes." });
+  }
 }
 
-function createReport(req, res) {
-  const report = new Report();
-  report.address = req.body.address;
-  report.description = req.body.description;
-  report.pointlat = req.body.pointlat;
-  report.pointlong = req.body.pointlong;
-  report.type = req.body.type;
+async function createReport(req, res) {
+  await models.report.sync();
 
-  report.save((err, savedReport) => {
-    if (err) {
-      return res
-        .status(500)
-        .send({ notification: "No pudo guardar el reporte correctamente." });
-    } else {
-      User.update(
-        {
-          _id: req.body.userId
-        },
-        {
-          $addToSet: {
-            reports: savedReport._id
-          }
-        },
-        (err, user) => {
-          if (err) {
-            return res.status(500).send({
-              notification:
-                "No se pudo integrar el usuario al reporte correctamente."
-            });
-          }
-        }
-      );
-
-      return res.send(savedReport);
-    }
+  const user = await models.user.findOne({
+    where: {
+      id: req.body.userId,
+    },
+    attributes: ["id"],
   });
-}
 
-function updateReport(req, res) {
-  Report.update(
+  const report = models.report.build(
     {
-      _id: req.body.id
+      address: req.body.address,
+      description: req.body.description,
+      pointlat: req.body.pointlat,
+      pointlong: req.body.pointlong,
+      type: req.body.type,
+      userId: user.dataValues.id,
     },
     {
-      $set: {
-        state: req.body.state
-      }
-    },
-    (err, report) => {
-      if (err) {
-        return res.status(500).send({
-          err: "No se actualizo el estado del reporte correctamente"
-        });
-      }
-
-      return res.send(report);
+      include: [models.user],
     }
   );
+
+  try {
+    await report.save();
+
+    return res.send(report);
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ notification: "No pudo guardar el reporte correctamente." });
+  }
 }
 
-function deleteReport(req, res) {
-  Report.findById(req.query.id, (err, report) => {
-    if (err)
-      return res
-        .status(500)
-        .send({ message: `Error al eliminar el reporte ${err}` });
+async function updateReport(req, res) {
+  await models.report.sync();
 
-    report.remove(err => {
-      if (err) {
-        return res
-          .status(500)
-          .send({ message: `Error al eliminar el reporte ${err}` });
+  try {
+    await models.report.update(
+      { state: req.body.state },
+      {
+        where: {
+          id: req.body.id,
+        },
       }
-      return res.status(200).send({ message: `Reporte ha sido eliminado` });
+    );
+    const report = await models.report.findOne({
+      where: {
+        id: req.body.id,
+      },
     });
-  });
+
+    return res.send(report);
+  } catch (err) {
+    return res.status(500).send({
+      err: "No se actualizo el estado del reporte correctamente",
+    });
+  }
+}
+
+async function deleteReport(req, res) {
+  await models.report.sync();
+
+  try {
+    await models.report.destroy({
+      where: {
+        id: req.query.id,
+      },
+    });
+
+    return res.status(200).send({ message: `Reporte ha sido eliminado` });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: `Error al eliminar el reporte ${err}` });
+  }
 }
 
 module.exports = {
   getReports,
   createReport,
   updateReport,
-  deleteReport
+  deleteReport,
 };

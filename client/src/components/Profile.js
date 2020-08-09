@@ -92,7 +92,7 @@ export default class Profile extends Component {
           {this.state.reports.map(report => (
             <article
               className="table-reports__item order-in-table order-in-table--alt"
-              key={report._id}
+              key={report.id}
             >
               <p className="table-reports__text">{report.description}</p>
 
@@ -124,7 +124,7 @@ export default class Profile extends Component {
                   <span
                     className="table-reports__delete"
                     onClick={this.removeReport}
-                    id={report._id}
+                    id={report.id}
                   >
                     <i className="icon-delete-icon" />
                     Eliminar

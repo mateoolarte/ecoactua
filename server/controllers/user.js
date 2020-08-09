@@ -1,67 +1,77 @@
-const User = require("../models/user");
+const { models } = require("../config").db;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
-function signUp(req, res) {
-  const user = new User();
+async function signUp(req, res) {
+  await models.user.sync();
 
-  User.findOne({ username: req.body.username }, (err, usernameRegistered) => {
-    if (err) return "Ha ocurrido un error buscando el nombre de usuario.";
-
-    if (usernameRegistered === null) {
-      User.findOne({ email: req.body.email }, (err, emailRegistered) => {
-        if (err) return "Ha ocurrido un error buscando el correo electrónico";
-
-        if (emailRegistered === null) {
-          const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-
-          user.firstName = req.body.firstName;
-          user.lastName = req.body.lastName;
-          user.email = req.body.email;
-          user.username = req.body.username;
-          user.password = hashedPassword;
-
-          user.save((err, savedUser) => {
-            if (err) {
-              return res
-                .status(500)
-                .send({ message: `Error al crear un usuario: ${err}.` });
-            }
-
-            const token = jwt.sign(
-              { id: user._id, typeUser: user.role },
-              config.SECRET_TOKEN,
-              {
-                expiresIn: 86400
-              }
-            );
-
-            res.status(200).send({
-              token: token,
-              currentUser: user,
-              notification: "Se ha creado el usuario correctamente."
-            });
-          });
-        } else {
-          return res
-            .status(409)
-            .send({ notification: "Correo electrónico en uso." });
-        }
-      });
-    } else {
-      return res
-        .status(409)
-        .send({ notification: "Nombre de usuario en uso." });
-    }
+  const usernameExist = await models.user.findOne({
+    where: {
+      username: req.body.username,
+    },
   });
+  const emailExist = await models.user.findOne({
+    where: {
+      email: req.body.email,
+    },
+  });
+
+  if (!usernameExist && !emailExist) {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+
+    const user = models.user.build({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      username: req.body.username,
+      password: hashedPassword,
+    });
+
+    try {
+      await user.save();
+
+      const token = jwt.sign(
+        { id: user.id, typeUser: user.role },
+        config.SECRET_TOKEN,
+        {
+          expiresIn: 86400,
+        }
+      );
+
+      res.status(200).send({
+        token: token,
+        currentUser: user,
+        notification: "Se ha creado el usuario correctamente.",
+      });
+    } catch (err) {
+      return res
+        .status(500)
+        .send({ message: `Error al crear un usuario: ${err}.` });
+    }
+  } else {
+    return res
+      .status(409)
+      .send({ notification: "Este usuario ya existe, intenta ingresar." });
+  }
 }
 
-function signIn(req, res) {
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (err) return res.status(500).send({ notification: err });
-    if (!user)
-      return res.status(404).send({ notification: "No existe el usuario." });
+async function signIn(req, res) {
+  await models.user.sync();
+
+  try {
+    const twentyFourHours = 86400;
+    const user = await models.user.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ notification: "No existe el usuario, intenta registrarte." });
+    }
 
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
@@ -70,53 +80,65 @@ function signIn(req, res) {
 
     if (!passwordIsValid)
       return res.status(401).send({
-        notification: "La contraseña es incorrecta."
+        notification: "La contraseña es incorrecta.",
       });
 
-    const token = jwt.sign({ id: user._id }, config.SECRET_TOKEN, {
-      expiresIn: 86400 // expires in 24 hours
+    const token = jwt.sign({ id: user.id }, config.SECRET_TOKEN, {
+      expiresIn: twentyFourHours,
     });
 
     res.status(200).send({
       token: token,
       currentUser: user,
-      notification: "Has ingresado correctamente."
+      notification: "Has ingresado correctamente.",
     });
-  });
+  } catch (err) {
+    return res.status(500).send({ notification: err });
+  }
 }
 
 function signOut(req, res) {
   res.status(200).send({
     token: null,
-    notification: "Haz cerrado sesión correctamente."
+    notification: "Haz cerrado sesión correctamente.",
   });
 }
 
-function getUsers(req, res) {
-  User.find({}, { password: 0 })
-    .populate("reports")
-    .exec((err, user) => {
-      if (err) {
-        return res
-          .status(500)
-          .send({ notification: "No se pueden mostrar los usuarios." });
-      }
-      return res.status(200).send(user);
+async function getUsers(req, res) {
+  await models.user.sync();
+  await models.report.sync();
+
+  try {
+    const users = await models.user.findAll({
+      include: models.report,
     });
+
+    return res.status(200).send(users);
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ notification: "No se pueden mostrar los usuarios." });
+  }
 }
 
-function getUser(req, res) {
-  User.find({ username: req.query.username }, { password: 0 })
-    .populate("reports")
-    .exec((err, user) => {
-      if (err) {
-        res
-          .status(500)
-          .send({ notification: "Hubo un problema al encontrar el usuario." });
-      } else {
-        res.send(user);
-      }
+async function getUser(req, res) {
+  await models.user.sync();
+  await models.report.sync();
+
+  try {
+    const user = await models.user.findOne({
+      where: {
+        username: req.body.username,
+      },
+      include: models.report,
     });
+
+    res.send(user);
+  } catch (err) {
+    res
+      .status(500)
+      .send({ notification: "Hubo un problema al encontrar el usuario." });
+  }
 }
 
 module.exports = {
@@ -124,5 +146,5 @@ module.exports = {
   signIn,
   signOut,
   getUsers,
-  getUser
+  getUser,
 };

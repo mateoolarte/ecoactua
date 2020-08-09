@@ -5,11 +5,11 @@
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "axios": "^0.19.2",
-    "google-maps-react": "^2.0.2",
+    "google-maps-react": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^6.0.0",
-    "react-router-dom": "^5.1.2",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
@@ -17,5 +17,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

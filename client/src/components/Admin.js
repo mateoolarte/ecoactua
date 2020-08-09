@@ -209,7 +209,7 @@ export class Admin extends Component {
             .map(report => (
               <article
                 className="table-reports__item order-in-table order-in-table--alt"
-                key={report._id}
+                key={report.id}
               >
                 <p className="table-reports__text">{report.description}</p>
 
@@ -239,7 +239,7 @@ export class Admin extends Component {
                     {report.state} <span className="caret" />
                   </span>
 
-                  <ul className="admin__update-dropdown" id={report._id}>
+                  <ul className="admin__update-dropdown" id={report.id}>
                     {this.state.reportStates.map((reportState, i) => (
                       <li key={i} onClick={this.updateReport}>
                         {reportState !== report.state && (
@@ -267,7 +267,7 @@ export class Admin extends Component {
                 <span
                   className="table-reports__delete"
                   onClick={this.removeReport}
-                  id={report._id}
+                  id={report.id}
                 >
                   <i className="icon icon-delete-icon" />
                   Eliminar
@@ -287,7 +287,7 @@ export class Admin extends Component {
         >
           {this.state.reports.map(report => (
             <Marker
-              key={report._id}
+              key={report.id}
               address={report.address}
               description={report.description}
               reportState={report.state}

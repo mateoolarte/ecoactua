@@ -1,11 +1,11 @@
 {
   "name": "ecoactua",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": "git@github.com:mateoolarte/ecoactua.git",
   "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.3.0"
   },
   "scripts": {
     "install": "(cd client && yarn) && (cd server && yarn)",
@@ -15,6 +15,6 @@
     "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
   },
   "engines": {
-    "node": "9.10.0"
+    "node": "10.22.0"
   }
 }

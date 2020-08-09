@@ -89,7 +89,7 @@ export class Reports extends Component {
         >
           {this.state.reports.map(report => (
             <Marker
-              key={report._id}
+              key={report.id}
               address={report.address}
               description={report.description}
               reportState={report.state}
@@ -141,7 +141,7 @@ export class Reports extends Component {
           {this.state.reports.map(report => (
             <article
               className="table-reports__item order-in-table"
-              key={report._id}
+              key={report.id}
             >
               <p className="table-reports__text">{report.description}</p>
               <span className="form-report__types-box block-click">

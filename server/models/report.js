@@ -1,14 +1,29 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { DataTypes } = require("sequelize");
 
-const report = new Schema({
-  address: String,
-  description: String,
-  pointlat: String,
-  pointlong: String,
-  state: { type: String, default: "Pendiente" },
-  type: String,
-  dateCreation: { type: Date, default: Date.now }
-});
-
-module.exports = mongoose.model("Report", report);
+module.exports = (sequelize) => {
+  sequelize.define("report", {
+    address: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.STRING,
+    },
+    pointlat: {
+      type: DataTypes.STRING,
+    },
+    pointlong: {
+      type: DataTypes.STRING,
+    },
+    state: {
+      type: DataTypes.STRING,
+      defaultValue: "Pendiente",
+    },
+    type: {
+      type: DataTypes.STRING,
+    },
+    dateCreation: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now,
+    },
+  });
+};

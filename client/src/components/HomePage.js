@@ -165,7 +165,7 @@ export class HomePage extends Component {
           >
             {this.state.reports.map(report => (
               <Marker
-                key={report._id}
+                key={report.id}
                 address={report.address}
                 description={report.description}
                 reportState={report.state}

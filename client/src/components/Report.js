@@ -25,7 +25,7 @@ export class Report extends Component {
       pointlat: 6.249451,
       pointlong: -75.576035,
       type: "",
-      userId: JSON.parse(localStorage.getItem("currentUser"))._id,
+      userId: JSON.parse(localStorage.getItem("currentUser")).id,
       notification: "",
       redirectPage: false
     };
