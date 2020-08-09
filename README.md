@@ -1,6 +1,6 @@
 # Ecoactua
 
-This project is building currently with Nodejs, ExpressJS, Mongoose
+This project is building currently with Nodejs, ExpressJS, Sequelize
 
 ## Getting started
 
