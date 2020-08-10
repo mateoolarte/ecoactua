@@ -177,6 +177,6 @@ export class Reports extends Component {
 const LoadingContainer = props => <div>Fancy loading container!</div>;
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyAD7fBDU_tVmqTL_zqIAVC_317qfyYH7Js",
+  apiKey: process.env.REACT_APP_API_GOOGLE_MAPS,
   LoadingContainer: LoadingContainer
 })(Reports);
