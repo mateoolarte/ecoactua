@@ -21,8 +21,6 @@ Create a `.env` file inside `server` folder with these variables:
 ```env
 PORT=5000
 JWT_TOKEN=mypasstoken
-DB_HOST=localhost
-DB_NAME=your_name
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
+DATABASE_URL=postgres://localhost:5432/postgres
+REACT_APP_API_GOOGLE_MAPS=API_KEY_GOOGLE
 ```

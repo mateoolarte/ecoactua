@@ -15,6 +15,6 @@
     "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
   },
   "engines": {
-    "node": "10.22.0"
+    "node": "14.16.0"
   }
 }
