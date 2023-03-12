@@ -5,7 +5,7 @@
   "author": "Mateo Olarte <mateo.olarte8@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "5.3.0"
   },
   "scripts": {
     "install": "(cd client && yarn) && (cd server && yarn)",
@@ -15,6 +15,6 @@
     "postbuild": "cd client && yarn --production=false && yarn run build"
   },
   "engines": {
-    "node": "14.16.0"
+    "node": ">= 14"
   }
 }
